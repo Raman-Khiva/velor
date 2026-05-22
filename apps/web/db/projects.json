@@ -1,0 +1,317 @@
+[
+  {
+    "id": "proj-1",
+    "name": "NebulaChat",
+    "description": "Real-time AI-powered team messaging platform",
+    "type": "SaaS Application",
+    "techStack": ["Next.js", "Socket.io", "PostgreSQL", "Redis"],
+    "status": "In Progress",
+    "startDate": "2025-01-10",
+    "targetDate": "2025-06-30",
+    "owner": "Aryan Mehta",
+    "phases": [
+      {
+        "id": "ph-1",
+        "name": "Project Foundation",
+        "description": "Set up development environment and project structure.",
+        "order": 1,
+        "status": "active",
+        "progress": 20,
+        "milestones": [
+          {
+            "id": "ms-1-1",
+            "title": "Repository and Tooling Setup",
+            "description": "Initialize repository and configure development tooling.",
+            "progress": 33,
+            "tasks": [
+              {
+                "id": "t-1",
+                "title": "Initialize Turborepo monorepo structure",
+                "type": "setup",
+                "purpose": "Turborepo organizes multiple apps and shared packages in a single repository.",
+                "commands": ["npx create-turbo@latest"],
+                "done": true
+              },
+              {
+                "id": "t-2",
+                "title": "Configure ESLint and Prettier for code quality",
+                "type": "configuration",
+                "purpose": "Ensures consistent code style and catches common errors early.",
+                "commands": ["npm install eslint prettier --save-dev"],
+                "done": false
+              },
+              {
+                "id": "t-3",
+                "title": "Set up environment variable management",
+                "type": "configuration",
+                "purpose": "Centralized environment variables help maintain consistent configuration across environments.",
+                "commands": ["npm install dotenv"],
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ms-1-2",
+            "title": "Database Initialization",
+            "description": "Prepare the database and schema management.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-4",
+                "title": "Install Prisma ORM for database management",
+                "type": "setup",
+                "purpose": "Prisma provides type-safe database access and schema management.",
+                "commands": ["npm install prisma --save-dev"],
+                "done": false
+              },
+              {
+                "id": "t-5",
+                "title": "Initialize Prisma schema and migration setup",
+                "type": "configuration",
+                "purpose": "Initializes database schema and migration workflow.",
+                "commands": ["npx prisma init"],
+                "done": false
+              },
+              {
+                "id": "t-6",
+                "title": "Create database models for users and messages",
+                "type": "implementation",
+                "purpose": "Defines the core data structures for the messaging platform.",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ms-1-3",
+            "title": "Frontend Base Setup",
+            "description": "Prepare UI framework and styling configuration.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-7",
+                "title": "Install Tailwind CSS for styling",
+                "type": "setup",
+                "purpose": "Tailwind CSS provides utility-first styling for rapid UI development.",
+                "commands": ["npm install -D tailwindcss postcss autoprefixer"],
+                "done": false
+              },
+              {
+                "id": "t-8",
+                "title": "Configure Tailwind CSS project settings",
+                "type": "configuration",
+                "purpose": "Enables Tailwind to scan project files and generate styles.",
+                "commands": ["npx tailwindcss init -p"],
+                "done": false
+              },
+              {
+                "id": "t-9",
+                "title": "Create base layout and navigation structure",
+                "type": "implementation",
+                "purpose": "Establishes the foundational UI layout for the application.",
+                "done": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ph-2",
+        "name": "Messaging Core Development",
+        "description": "Build the core real-time messaging functionality.",
+        "order": 2,
+        "status": "pending",
+        "progress": 0,
+        "milestones": [
+          {
+            "id": "ms-2-1",
+            "title": "Socket Infrastructure",
+            "description": "Establish real-time communication layer.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-10",
+                "title": "Install Socket.io for real-time communication",
+                "type": "setup",
+                "purpose": "Socket.io enables bi-directional communication between client and server.",
+                "commands": ["npm install socket.io socket.io-client"],
+                "done": false
+              },
+              {
+                "id": "t-11",
+                "title": "Create WebSocket server for chat communication",
+                "type": "implementation",
+                "purpose": "Handles real-time message broadcasting between users.",
+                "done": false
+              },
+              {
+                "id": "t-12",
+                "title": "Implement room-based messaging channels",
+                "type": "implementation",
+                "purpose": "Allows users to communicate within specific channels or groups.",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ms-2-2",
+            "title": "Message Persistence",
+            "description": "Store messages and retrieve chat history.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-13",
+                "title": "Create database schema for chat messages",
+                "type": "implementation",
+                "purpose": "Defines how chat messages are stored in the database.",
+                "done": false
+              },
+              {
+                "id": "t-14",
+                "title": "Build API endpoint to store incoming messages",
+                "type": "implementation",
+                "purpose": "Ensures messages are persisted for later retrieval.",
+                "done": false
+              },
+              {
+                "id": "t-15",
+                "title": "Implement chat history retrieval API",
+                "type": "implementation",
+                "purpose": "Allows users to view past conversations.",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ms-2-3",
+            "title": "Chat Interface",
+            "description": "Develop the user-facing chat interface.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-16",
+                "title": "Design chat message UI components",
+                "type": "implementation",
+                "purpose": "Provides a visually structured message display interface.",
+                "done": false
+              },
+              {
+                "id": "t-17",
+                "title": "Implement message sending functionality",
+                "type": "implementation",
+                "purpose": "Allows users to send messages in real time.",
+                "done": false
+              },
+              {
+                "id": "t-18",
+                "title": "Display real-time incoming messages in UI",
+                "type": "implementation",
+                "purpose": "Ensures new messages appear instantly without page reload.",
+                "done": false
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ph-3",
+        "name": "Deployment and Testing",
+        "description": "Prepare the system for production deployment.",
+        "order": 3,
+        "status": "pending",
+        "progress": 0,
+        "milestones": [
+          {
+            "id": "ms-3-1",
+            "title": "Application Testing",
+            "description": "Verify functionality through automated and manual tests.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-19",
+                "title": "Install Jest testing framework",
+                "type": "testing",
+                "purpose": "Provides automated testing capabilities for application logic.",
+                "commands": ["npm install jest --save-dev"],
+                "done": false
+              },
+              {
+                "id": "t-20",
+                "title": "Write unit tests for message API endpoints",
+                "type": "testing",
+                "purpose": "Ensures message APIs behave correctly.",
+                "done": false
+              },
+              {
+                "id": "t-21",
+                "title": "Perform manual testing of chat functionality",
+                "type": "testing",
+                "purpose": "Validates the complete messaging workflow.",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ms-3-2",
+            "title": "Production Deployment",
+            "description": "Deploy the application to production environment.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-22",
+                "title": "Prepare environment variables for production",
+                "type": "configuration",
+                "purpose": "Ensures correct configuration for production services.",
+                "done": false
+              },
+              {
+                "id": "t-23",
+                "title": "Deploy frontend application to Vercel",
+                "type": "deployment",
+                "purpose": "Hosts the frontend application for public access.",
+                "commands": ["vercel deploy"],
+                "done": false
+              },
+              {
+                "id": "t-24",
+                "title": "Deploy backend services to cloud server",
+                "type": "deployment",
+                "purpose": "Ensures backend APIs are accessible to users.",
+                "done": false
+              }
+            ]
+          },
+          {
+            "id": "ms-3-3",
+            "title": "Monitoring Setup",
+            "description": "Add monitoring and logging tools.",
+            "progress": 0,
+            "tasks": [
+              {
+                "id": "t-25",
+                "title": "Integrate Sentry for error monitoring",
+                "type": "setup",
+                "purpose": "Tracks application errors and performance issues.",
+                "commands": ["npm install @sentry/nextjs"],
+                "done": false
+              },
+              {
+                "id": "t-26",
+                "title": "Configure logging for backend services",
+                "type": "configuration",
+                "purpose": "Provides insight into server activity and debugging.",
+                "done": false
+              },
+              {
+                "id": "t-27",
+                "title": "Set up uptime monitoring alerts",
+                "type": "setup",
+                "purpose": "Ensures application availability is monitored.",
+                "done": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

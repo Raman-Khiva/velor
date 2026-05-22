@@ -1,0 +1,84 @@
+{
+  "name": "AI Project Planner",
+  "description": "A SaaS application that generates structured software development plans using AI based on a project idea provided by the user.",
+  "type": "SaaS Application",
+  "techStack": [
+    "Next.js",
+    "Node.js",
+    "Prisma",
+    "PostgreSQL",
+    "Groq API",
+    "Tailwind CSS"
+  ],
+  "status": "planning",
+  "startDate": "2026-03-16T00:00:00.000Z",
+  "targetDate": "2026-06-30T00:00:00.000Z",
+  "owner": "Ramandeep Singh",
+  "phases": [
+    {
+      "name": "Project Setup",
+      "description": "Initialize the project repository and configure the development environment.",
+      "order": 1,
+      "status": "active",
+      "progress": 20,
+      "milestones": [
+        {
+          "title": "Repository Initialization",
+          "description": "Create the project repository and initialize the base project structure.",
+          "progress": 50,
+          "tasks": [
+            {
+              "title": "Initialize Next.js application",
+              "type": "setup",
+              "purpose": "Create the base web application structure for the project planner.",
+              "commands": ["npx create-next-app@latest ai-project-planner"],
+              "done": true
+            },
+            {
+              "title": "Initialize Git repository",
+              "type": "setup",
+              "purpose": "Enable version control and collaboration for the project.",
+              "commands": ["git init"],
+              "done": true
+            },
+            {
+              "title": "Create initial project folder structure",
+              "type": "implementation",
+              "purpose": "Organize components, hooks, API routes, and utilities for maintainability.",
+              "commands": [],
+              "done": false
+            }
+          ]
+        },
+        {
+          "title": "Development Tooling",
+          "description": "Configure code quality tools and environment configuration.",
+          "progress": 0,
+          "tasks": [
+            {
+              "title": "Install ESLint and Prettier",
+              "type": "configuration",
+              "purpose": "Maintain consistent code formatting and catch potential issues early.",
+              "commands": ["npm install eslint prettier --save-dev"],
+              "done": false
+            },
+            {
+              "title": "Configure environment variable management",
+              "type": "configuration",
+              "purpose": "Store API keys and environment-specific settings securely.",
+              "commands": ["npm install dotenv"],
+              "done": false
+            },
+            {
+              "title": "Add project scripts for development and build",
+              "type": "implementation",
+              "purpose": "Simplify development workflows with predefined commands.",
+              "commands": [],
+              "done": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
