@@ -1,5 +1,5 @@
 import { getAuth } from "@clerk/express";
-import prisma from "../config/prisma.js";
+import prisma from "../config/prisma.ts";
 import logger from "../utils/logger.js";
 
 export const getProjects = async (req, res) => {

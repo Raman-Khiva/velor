@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Milestone {
+  id          String  @id
+  title       String
+  description String?
+  progress    Int     @default(0)
+  phaseId     String
+  Phase       Phase   @relation(fields: [phaseId], references: [id])
+  Task        Task[]
+}
+
+model Phase {
+  id          String      @id
+  name        String
+  description String?
+  order       Int
+  status      String?
+  progress    Int         @default(0)
+  projectId   String
+  Milestone   Milestone[]
+  Project     Project     @relation(fields: [projectId], references: [id])
+}
+
+model Project {
+  id          String    @id
+  name        String
+  description String?
+  type        String?
+  techStack   String[]
+  status      String?
+  startDate   DateTime?
+  targetDate  DateTime?
+  owner       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  userId      String
+  Phase       Phase[]
+  User        User      @relation(fields: [userId], references: [id])
+}
+
+model Task {
+  id          String    @id
+  title       String
+  type        String?
+  purpose     String?
+  commands    String[]
+  done        Boolean   @default(false)
+  milestoneId String
+  Milestone   Milestone @relation(fields: [milestoneId], references: [id])
+}
+
+model Test {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id        String    @id
+  createdAt DateTime  @default(now())
+  clerkId   String    @unique
+  Project   Project[]
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  note      String
+  createdAt DateTime @default(now())
+}

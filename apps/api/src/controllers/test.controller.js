@@ -1,4 +1,4 @@
-import prisma from "../config/prisma.js";
+import prisma from "../config/prisma.ts";
 import logger from "../utils/logger.js";
 
 export const postTest = async (req, res) => {
@@ -15,11 +15,12 @@ export const postTest = async (req, res) => {
       data: { postedTest: postedTest },
     });
   } catch (error) {
-    logger.error(`Error while posting test on db. ERROR: ${error.message}`);
+    logger.error(`Error while posting test on db. ERROR: ${error}`);
+    logger.error(`Error message ${error.message}`)
     res.status(500).json({
       success: false,
-      message: "Failed to post test on db",
-      error: error.message,
+      message: error.message,
+      error: error,
     });
   }
 };

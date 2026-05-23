@@ -1,5 +1,5 @@
 import logger from "../utils/logger.js";
-import prisma from "../config/prisma.js";
+import prisma from "../config/prisma.ts";
 
 export const syncUser = async (req, res) => {
   logger.enter("Sync User Controller");

@@ -25,37 +25,7 @@ export function AddProjectModal() {
   const { generate } = useGroq();
   const [addProject, { isLoading }] = useAddProjectMutation();
 
-  const handleSubmit = async (e) => {
-    console.log("entering form submit");
-    console.log("Project Idea:", projectIdea);
-    try {
-      setReadyToAdd(false);
-      setProject(null);
-      let groqGeneratedProject = await generate(projectIdea);
-      console.log("GROQ generated project (raw):", groqGeneratedProject);
-      groqGeneratedProject = await JSON.parse(groqGeneratedProject);
-      console.warn(
-        "Parsed GROQ generated project type:",
-        typeof groqGeneratedProject,
-      );
-      console.log("Parsed GROQ generated project:", groqGeneratedProject);
-      if (
-        groqGeneratedProject != null ||
-        typeof groqGeneratedProject !== "object"
-      ) {
-        setReadyToAdd(true);
-        setProject(groqGeneratedProject);
-      } else {
-        console.error(
-          "groqGeneratedProject is not an object:",
-          groqGeneratedProject,
-        );
-      }
-    } catch (error) {
-      setReadyToAdd(false);
-      console.error("Error parsing GROQ response:", error);
-    }
-  };
+
 
   const handleAddProject = async () => {
     console.log("Add project button clicked");
