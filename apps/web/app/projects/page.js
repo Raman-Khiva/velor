@@ -1,6 +1,7 @@
 "use client"
 import { useEffect } from "react"
 import { useGetProjectsQuery } from "@/features/projects/projectsApi"
+import { useRouter } from "next/navigation"
 import testProject from "@/db/testProject"
 import { useState } from "react"
 import { Button } from "@workspace/ui/components/button"
@@ -14,7 +15,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card"
 
-import { AddProjectModal } from "@workspace/ui/components/add-project-model"
+//import { AddProjectModal } from "@workspace/ui/components/add-project-model"
 import { AppSidebar } from "@workspace/ui/components/app-sidebar"
 import {
   Breadcrumb,
@@ -32,6 +33,7 @@ import {
 } from "@workspace/ui/components/sidebar"
 
 export default function Page() {
+  const router = useRouter()
   const [openModal, osetOpenModal] = useState(false)
   const { data, isLoading } = useGetProjectsQuery()
   useEffect(() => {
@@ -52,13 +54,15 @@ export default function Page() {
   console.warn("data from query", data)
   console.warn("projects from query", projects)
   return (
-    <div className="grid grid-cols-3 gap-4 gap-5 p-4 px-6 pt-0 lg:grid-cols-4">
+    <div className="grid grid-cols-3 gap-5 pt-0 pr-16 pb-20 pl-10 lg:grid-cols-4">
       <div className="col-span-3 flex items-center justify-between pt-8 pb-4 lg:col-span-4">
         <div>
           <h2 className="text-2xl font-bold">Projects</h2>
         </div>
         <div className="flex items-center gap-5">
-          <AddProjectModal />
+          <Button className="rounded-sm" onClick={() => router.push("/agent")}>
+            New Project
+          </Button>
         </div>
       </div>
       {projects.map((project, i) => (

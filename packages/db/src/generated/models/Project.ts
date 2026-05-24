@@ -234,8 +234,8 @@ export type ProjectWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   userId?: Prisma.StringFilter<"Project"> | string
-  Phase?: Prisma.PhaseListRelationFilter
-  User?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  phases?: Prisma.PhaseListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -251,8 +251,8 @@ export type ProjectOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  Phase?: Prisma.PhaseOrderByRelationAggregateInput
-  User?: Prisma.UserOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
+  phases?: Prisma.PhaseOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -271,8 +271,8 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   userId?: Prisma.StringFilter<"Project"> | string
-  Phase?: Prisma.PhaseListRelationFilter
-  User?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  phases?: Prisma.PhaseListRelationFilter
 }, "id">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -312,7 +312,7 @@ export type ProjectScalarWhereWithAggregatesInput = {
 }
 
 export type ProjectCreateInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -322,13 +322,13 @@ export type ProjectCreateInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
-  Phase?: Prisma.PhaseCreateNestedManyWithoutProjectInput
-  User: Prisma.UserCreateNestedOneWithoutProjectInput
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput
+  phases?: Prisma.PhaseCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -338,9 +338,9 @@ export type ProjectUncheckedCreateInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   userId: string
-  Phase?: Prisma.PhaseUncheckedCreateNestedManyWithoutProjectInput
+  phases?: Prisma.PhaseUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -355,8 +355,8 @@ export type ProjectUpdateInput = {
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Phase?: Prisma.PhaseUpdateManyWithoutProjectNestedInput
-  User?: Prisma.UserUpdateOneRequiredWithoutProjectNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
+  phases?: Prisma.PhaseUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -372,11 +372,11 @@ export type ProjectUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  Phase?: Prisma.PhaseUncheckedUpdateManyWithoutProjectNestedInput
+  phases?: Prisma.PhaseUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -386,7 +386,7 @@ export type ProjectCreateManyInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   userId: string
 }
 
@@ -485,18 +485,18 @@ export type ProjectOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type ProjectCreateNestedOneWithoutPhaseInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutPhaseInput, Prisma.ProjectUncheckedCreateWithoutPhaseInput>
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutPhaseInput
+export type ProjectCreateNestedOneWithoutPhasesInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutPhasesInput, Prisma.ProjectUncheckedCreateWithoutPhasesInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutPhasesInput
   connect?: Prisma.ProjectWhereUniqueInput
 }
 
-export type ProjectUpdateOneRequiredWithoutPhaseNestedInput = {
-  create?: Prisma.XOR<Prisma.ProjectCreateWithoutPhaseInput, Prisma.ProjectUncheckedCreateWithoutPhaseInput>
-  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutPhaseInput
-  upsert?: Prisma.ProjectUpsertWithoutPhaseInput
+export type ProjectUpdateOneRequiredWithoutPhasesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutPhasesInput, Prisma.ProjectUncheckedCreateWithoutPhasesInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutPhasesInput
+  upsert?: Prisma.ProjectUpsertWithoutPhasesInput
   connect?: Prisma.ProjectWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutPhaseInput, Prisma.ProjectUpdateWithoutPhaseInput>, Prisma.ProjectUncheckedUpdateWithoutPhaseInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutPhasesInput, Prisma.ProjectUpdateWithoutPhasesInput>, Prisma.ProjectUncheckedUpdateWithoutPhasesInput>
 }
 
 export type ProjectCreatetechStackInput = {
@@ -558,8 +558,8 @@ export type ProjectUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
-export type ProjectCreateWithoutPhaseInput = {
-  id: string
+export type ProjectCreateWithoutPhasesInput = {
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -569,12 +569,12 @@ export type ProjectCreateWithoutPhaseInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
-  User: Prisma.UserCreateNestedOneWithoutProjectInput
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput
 }
 
-export type ProjectUncheckedCreateWithoutPhaseInput = {
-  id: string
+export type ProjectUncheckedCreateWithoutPhasesInput = {
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -584,27 +584,27 @@ export type ProjectUncheckedCreateWithoutPhaseInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
   userId: string
 }
 
-export type ProjectCreateOrConnectWithoutPhaseInput = {
+export type ProjectCreateOrConnectWithoutPhasesInput = {
   where: Prisma.ProjectWhereUniqueInput
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutPhaseInput, Prisma.ProjectUncheckedCreateWithoutPhaseInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutPhasesInput, Prisma.ProjectUncheckedCreateWithoutPhasesInput>
 }
 
-export type ProjectUpsertWithoutPhaseInput = {
-  update: Prisma.XOR<Prisma.ProjectUpdateWithoutPhaseInput, Prisma.ProjectUncheckedUpdateWithoutPhaseInput>
-  create: Prisma.XOR<Prisma.ProjectCreateWithoutPhaseInput, Prisma.ProjectUncheckedCreateWithoutPhaseInput>
+export type ProjectUpsertWithoutPhasesInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutPhasesInput, Prisma.ProjectUncheckedUpdateWithoutPhasesInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutPhasesInput, Prisma.ProjectUncheckedCreateWithoutPhasesInput>
   where?: Prisma.ProjectWhereInput
 }
 
-export type ProjectUpdateToOneWithWhereWithoutPhaseInput = {
+export type ProjectUpdateToOneWithWhereWithoutPhasesInput = {
   where?: Prisma.ProjectWhereInput
-  data: Prisma.XOR<Prisma.ProjectUpdateWithoutPhaseInput, Prisma.ProjectUncheckedUpdateWithoutPhaseInput>
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutPhasesInput, Prisma.ProjectUncheckedUpdateWithoutPhasesInput>
 }
 
-export type ProjectUpdateWithoutPhaseInput = {
+export type ProjectUpdateWithoutPhasesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -616,10 +616,10 @@ export type ProjectUpdateWithoutPhaseInput = {
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  User?: Prisma.UserUpdateOneRequiredWithoutProjectNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
 }
 
-export type ProjectUncheckedUpdateWithoutPhaseInput = {
+export type ProjectUncheckedUpdateWithoutPhasesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -635,7 +635,7 @@ export type ProjectUncheckedUpdateWithoutPhaseInput = {
 }
 
 export type ProjectCreateWithoutUserInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -645,12 +645,12 @@ export type ProjectCreateWithoutUserInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
-  Phase?: Prisma.PhaseCreateNestedManyWithoutProjectInput
+  updatedAt?: Date | string
+  phases?: Prisma.PhaseCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutUserInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -660,8 +660,8 @@ export type ProjectUncheckedCreateWithoutUserInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
-  Phase?: Prisma.PhaseUncheckedCreateNestedManyWithoutProjectInput
+  updatedAt?: Date | string
+  phases?: Prisma.PhaseUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutUserInput = {
@@ -709,7 +709,7 @@ export type ProjectScalarWhereInput = {
 }
 
 export type ProjectCreateManyUserInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   type?: string | null
@@ -719,7 +719,7 @@ export type ProjectCreateManyUserInput = {
   targetDate?: Date | string | null
   owner?: string | null
   createdAt?: Date | string
-  updatedAt: Date | string
+  updatedAt?: Date | string
 }
 
 export type ProjectUpdateWithoutUserInput = {
@@ -734,7 +734,7 @@ export type ProjectUpdateWithoutUserInput = {
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Phase?: Prisma.PhaseUpdateManyWithoutProjectNestedInput
+  phases?: Prisma.PhaseUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutUserInput = {
@@ -749,7 +749,7 @@ export type ProjectUncheckedUpdateWithoutUserInput = {
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Phase?: Prisma.PhaseUncheckedUpdateManyWithoutProjectNestedInput
+  phases?: Prisma.PhaseUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutUserInput = {
@@ -772,11 +772,11 @@ export type ProjectUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type ProjectCountOutputType = {
-  Phase: number
+  phases: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Phase?: boolean | ProjectCountOutputTypeCountPhaseArgs
+  phases?: boolean | ProjectCountOutputTypeCountPhasesArgs
 }
 
 /**
@@ -792,7 +792,7 @@ export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
 /**
  * ProjectCountOutputType without action
  */
-export type ProjectCountOutputTypeCountPhaseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type ProjectCountOutputTypeCountPhasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.PhaseWhereInput
 }
 
@@ -810,8 +810,8 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
-  Phase?: boolean | Prisma.Project$PhaseArgs<ExtArgs>
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  phases?: boolean | Prisma.Project$phasesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -828,7 +828,7 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -844,7 +844,7 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
@@ -864,22 +864,22 @@ export type ProjectSelectScalar = {
 
 export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "type" | "techStack" | "status" | "startDate" | "targetDate" | "owner" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Phase?: boolean | Prisma.Project$PhaseArgs<ExtArgs>
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  phases?: boolean | Prisma.Project$phasesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  User?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Project"
   objects: {
-    Phase: Prisma.$PhasePayload<ExtArgs>[]
-    User: Prisma.$UserPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
+    phases: Prisma.$PhasePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1288,8 +1288,8 @@ readonly fields: ProjectFieldRefs;
  */
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  Phase<T extends Prisma.Project$PhaseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$PhaseArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  User<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  phases<T extends Prisma.Project$phasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$phasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PhasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1732,9 +1732,9 @@ export type ProjectDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
- * Project.Phase
+ * Project.phases
  */
-export type Project$PhaseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Project$phasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Phase
    */

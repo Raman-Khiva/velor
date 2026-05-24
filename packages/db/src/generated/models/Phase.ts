@@ -236,8 +236,8 @@ export type PhaseWhereInput = {
   status?: Prisma.StringNullableFilter<"Phase"> | string | null
   progress?: Prisma.IntFilter<"Phase"> | number
   projectId?: Prisma.StringFilter<"Phase"> | string
-  Milestone?: Prisma.MilestoneListRelationFilter
-  Project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  milestones?: Prisma.MilestoneListRelationFilter
 }
 
 export type PhaseOrderByWithRelationInput = {
@@ -248,8 +248,8 @@ export type PhaseOrderByWithRelationInput = {
   status?: Prisma.SortOrderInput | Prisma.SortOrder
   progress?: Prisma.SortOrder
   projectId?: Prisma.SortOrder
-  Milestone?: Prisma.MilestoneOrderByRelationAggregateInput
-  Project?: Prisma.ProjectOrderByWithRelationInput
+  project?: Prisma.ProjectOrderByWithRelationInput
+  milestones?: Prisma.MilestoneOrderByRelationAggregateInput
 }
 
 export type PhaseWhereUniqueInput = Prisma.AtLeast<{
@@ -263,8 +263,8 @@ export type PhaseWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringNullableFilter<"Phase"> | string | null
   progress?: Prisma.IntFilter<"Phase"> | number
   projectId?: Prisma.StringFilter<"Phase"> | string
-  Milestone?: Prisma.MilestoneListRelationFilter
-  Project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  milestones?: Prisma.MilestoneListRelationFilter
 }, "id">
 
 export type PhaseOrderByWithAggregationInput = {
@@ -296,25 +296,25 @@ export type PhaseScalarWhereWithAggregatesInput = {
 }
 
 export type PhaseCreateInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   order: number
   status?: string | null
   progress?: number
-  Milestone?: Prisma.MilestoneCreateNestedManyWithoutPhaseInput
-  Project: Prisma.ProjectCreateNestedOneWithoutPhaseInput
+  project: Prisma.ProjectCreateNestedOneWithoutPhasesInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutPhaseInput
 }
 
 export type PhaseUncheckedCreateInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   order: number
   status?: string | null
   progress?: number
   projectId: string
-  Milestone?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPhaseInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPhaseInput
 }
 
 export type PhaseUpdateInput = {
@@ -324,8 +324,8 @@ export type PhaseUpdateInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   progress?: Prisma.IntFieldUpdateOperationsInput | number
-  Milestone?: Prisma.MilestoneUpdateManyWithoutPhaseNestedInput
-  Project?: Prisma.ProjectUpdateOneRequiredWithoutPhaseNestedInput
+  project?: Prisma.ProjectUpdateOneRequiredWithoutPhasesNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutPhaseNestedInput
 }
 
 export type PhaseUncheckedUpdateInput = {
@@ -336,11 +336,11 @@ export type PhaseUncheckedUpdateInput = {
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   progress?: Prisma.IntFieldUpdateOperationsInput | number
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
-  Milestone?: Prisma.MilestoneUncheckedUpdateManyWithoutPhaseNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPhaseNestedInput
 }
 
 export type PhaseCreateManyInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   order: number
@@ -423,18 +423,18 @@ export type PhaseOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type PhaseCreateNestedOneWithoutMilestoneInput = {
-  create?: Prisma.XOR<Prisma.PhaseCreateWithoutMilestoneInput, Prisma.PhaseUncheckedCreateWithoutMilestoneInput>
-  connectOrCreate?: Prisma.PhaseCreateOrConnectWithoutMilestoneInput
+export type PhaseCreateNestedOneWithoutMilestonesInput = {
+  create?: Prisma.XOR<Prisma.PhaseCreateWithoutMilestonesInput, Prisma.PhaseUncheckedCreateWithoutMilestonesInput>
+  connectOrCreate?: Prisma.PhaseCreateOrConnectWithoutMilestonesInput
   connect?: Prisma.PhaseWhereUniqueInput
 }
 
-export type PhaseUpdateOneRequiredWithoutMilestoneNestedInput = {
-  create?: Prisma.XOR<Prisma.PhaseCreateWithoutMilestoneInput, Prisma.PhaseUncheckedCreateWithoutMilestoneInput>
-  connectOrCreate?: Prisma.PhaseCreateOrConnectWithoutMilestoneInput
-  upsert?: Prisma.PhaseUpsertWithoutMilestoneInput
+export type PhaseUpdateOneRequiredWithoutMilestonesNestedInput = {
+  create?: Prisma.XOR<Prisma.PhaseCreateWithoutMilestonesInput, Prisma.PhaseUncheckedCreateWithoutMilestonesInput>
+  connectOrCreate?: Prisma.PhaseCreateOrConnectWithoutMilestonesInput
+  upsert?: Prisma.PhaseUpsertWithoutMilestonesInput
   connect?: Prisma.PhaseWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.PhaseUpdateToOneWithWhereWithoutMilestoneInput, Prisma.PhaseUpdateWithoutMilestoneInput>, Prisma.PhaseUncheckedUpdateWithoutMilestoneInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PhaseUpdateToOneWithWhereWithoutMilestonesInput, Prisma.PhaseUpdateWithoutMilestonesInput>, Prisma.PhaseUncheckedUpdateWithoutMilestonesInput>
 }
 
 export type PhaseCreateNestedManyWithoutProjectInput = {
@@ -479,18 +479,18 @@ export type PhaseUncheckedUpdateManyWithoutProjectNestedInput = {
   deleteMany?: Prisma.PhaseScalarWhereInput | Prisma.PhaseScalarWhereInput[]
 }
 
-export type PhaseCreateWithoutMilestoneInput = {
-  id: string
+export type PhaseCreateWithoutMilestonesInput = {
+  id?: string
   name: string
   description?: string | null
   order: number
   status?: string | null
   progress?: number
-  Project: Prisma.ProjectCreateNestedOneWithoutPhaseInput
+  project: Prisma.ProjectCreateNestedOneWithoutPhasesInput
 }
 
-export type PhaseUncheckedCreateWithoutMilestoneInput = {
-  id: string
+export type PhaseUncheckedCreateWithoutMilestonesInput = {
+  id?: string
   name: string
   description?: string | null
   order: number
@@ -499,33 +499,33 @@ export type PhaseUncheckedCreateWithoutMilestoneInput = {
   projectId: string
 }
 
-export type PhaseCreateOrConnectWithoutMilestoneInput = {
+export type PhaseCreateOrConnectWithoutMilestonesInput = {
   where: Prisma.PhaseWhereUniqueInput
-  create: Prisma.XOR<Prisma.PhaseCreateWithoutMilestoneInput, Prisma.PhaseUncheckedCreateWithoutMilestoneInput>
+  create: Prisma.XOR<Prisma.PhaseCreateWithoutMilestonesInput, Prisma.PhaseUncheckedCreateWithoutMilestonesInput>
 }
 
-export type PhaseUpsertWithoutMilestoneInput = {
-  update: Prisma.XOR<Prisma.PhaseUpdateWithoutMilestoneInput, Prisma.PhaseUncheckedUpdateWithoutMilestoneInput>
-  create: Prisma.XOR<Prisma.PhaseCreateWithoutMilestoneInput, Prisma.PhaseUncheckedCreateWithoutMilestoneInput>
+export type PhaseUpsertWithoutMilestonesInput = {
+  update: Prisma.XOR<Prisma.PhaseUpdateWithoutMilestonesInput, Prisma.PhaseUncheckedUpdateWithoutMilestonesInput>
+  create: Prisma.XOR<Prisma.PhaseCreateWithoutMilestonesInput, Prisma.PhaseUncheckedCreateWithoutMilestonesInput>
   where?: Prisma.PhaseWhereInput
 }
 
-export type PhaseUpdateToOneWithWhereWithoutMilestoneInput = {
+export type PhaseUpdateToOneWithWhereWithoutMilestonesInput = {
   where?: Prisma.PhaseWhereInput
-  data: Prisma.XOR<Prisma.PhaseUpdateWithoutMilestoneInput, Prisma.PhaseUncheckedUpdateWithoutMilestoneInput>
+  data: Prisma.XOR<Prisma.PhaseUpdateWithoutMilestonesInput, Prisma.PhaseUncheckedUpdateWithoutMilestonesInput>
 }
 
-export type PhaseUpdateWithoutMilestoneInput = {
+export type PhaseUpdateWithoutMilestonesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   progress?: Prisma.IntFieldUpdateOperationsInput | number
-  Project?: Prisma.ProjectUpdateOneRequiredWithoutPhaseNestedInput
+  project?: Prisma.ProjectUpdateOneRequiredWithoutPhasesNestedInput
 }
 
-export type PhaseUncheckedUpdateWithoutMilestoneInput = {
+export type PhaseUncheckedUpdateWithoutMilestonesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -536,23 +536,23 @@ export type PhaseUncheckedUpdateWithoutMilestoneInput = {
 }
 
 export type PhaseCreateWithoutProjectInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   order: number
   status?: string | null
   progress?: number
-  Milestone?: Prisma.MilestoneCreateNestedManyWithoutPhaseInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutPhaseInput
 }
 
 export type PhaseUncheckedCreateWithoutProjectInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   order: number
   status?: string | null
   progress?: number
-  Milestone?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPhaseInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutPhaseInput
 }
 
 export type PhaseCreateOrConnectWithoutProjectInput = {
@@ -595,7 +595,7 @@ export type PhaseScalarWhereInput = {
 }
 
 export type PhaseCreateManyProjectInput = {
-  id: string
+  id?: string
   name: string
   description?: string | null
   order: number
@@ -610,7 +610,7 @@ export type PhaseUpdateWithoutProjectInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   progress?: Prisma.IntFieldUpdateOperationsInput | number
-  Milestone?: Prisma.MilestoneUpdateManyWithoutPhaseNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutPhaseNestedInput
 }
 
 export type PhaseUncheckedUpdateWithoutProjectInput = {
@@ -620,7 +620,7 @@ export type PhaseUncheckedUpdateWithoutProjectInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   progress?: Prisma.IntFieldUpdateOperationsInput | number
-  Milestone?: Prisma.MilestoneUncheckedUpdateManyWithoutPhaseNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutPhaseNestedInput
 }
 
 export type PhaseUncheckedUpdateManyWithoutProjectInput = {
@@ -638,11 +638,11 @@ export type PhaseUncheckedUpdateManyWithoutProjectInput = {
  */
 
 export type PhaseCountOutputType = {
-  Milestone: number
+  milestones: number
 }
 
 export type PhaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Milestone?: boolean | PhaseCountOutputTypeCountMilestoneArgs
+  milestones?: boolean | PhaseCountOutputTypeCountMilestonesArgs
 }
 
 /**
@@ -658,7 +658,7 @@ export type PhaseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extens
 /**
  * PhaseCountOutputType without action
  */
-export type PhaseCountOutputTypeCountMilestoneArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type PhaseCountOutputTypeCountMilestonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MilestoneWhereInput
 }
 
@@ -671,8 +671,8 @@ export type PhaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   status?: boolean
   progress?: boolean
   projectId?: boolean
-  Milestone?: boolean | Prisma.Phase$MilestoneArgs<ExtArgs>
-  Project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  milestones?: boolean | Prisma.Phase$milestonesArgs<ExtArgs>
   _count?: boolean | Prisma.PhaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["phase"]>
 
@@ -684,7 +684,7 @@ export type PhaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   status?: boolean
   progress?: boolean
   projectId?: boolean
-  Project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["phase"]>
 
 export type PhaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -695,7 +695,7 @@ export type PhaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   status?: boolean
   progress?: boolean
   projectId?: boolean
-  Project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["phase"]>
 
 export type PhaseSelectScalar = {
@@ -710,22 +710,22 @@ export type PhaseSelectScalar = {
 
 export type PhaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "order" | "status" | "progress" | "projectId", ExtArgs["result"]["phase"]>
 export type PhaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Milestone?: boolean | Prisma.Phase$MilestoneArgs<ExtArgs>
-  Project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  milestones?: boolean | Prisma.Phase$milestonesArgs<ExtArgs>
   _count?: boolean | Prisma.PhaseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PhaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }
 export type PhaseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  Project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }
 
 export type $PhasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Phase"
   objects: {
-    Milestone: Prisma.$MilestonePayload<ExtArgs>[]
-    Project: Prisma.$ProjectPayload<ExtArgs>
+    project: Prisma.$ProjectPayload<ExtArgs>
+    milestones: Prisma.$MilestonePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1129,8 +1129,8 @@ readonly fields: PhaseFieldRefs;
  */
 export interface Prisma__PhaseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  Milestone<T extends Prisma.Phase$MilestoneArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Phase$MilestoneArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  milestones<T extends Prisma.Phase$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Phase$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1568,9 +1568,9 @@ export type PhaseDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
- * Phase.Milestone
+ * Phase.milestones
  */
-export type Phase$MilestoneArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Phase$milestonesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Milestone
    */

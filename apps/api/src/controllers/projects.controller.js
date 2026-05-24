@@ -1,11 +1,10 @@
-import { getAuth } from "@clerk/express";
 import prisma from "../config/prisma.ts";
 import logger from "../utils/logger.js";
 
 export const getProjects = async (req, res) => {
   logger.enter("Get Projects Controller");
   try {
-    let { userId } = getAuth(req);
+    let { userId } = req.auth();
     const clerkId = userId;
     logger.info(`Finding user with clerkId ${clerkId} in the database`);
     let user = await prisma.user.findUnique({
