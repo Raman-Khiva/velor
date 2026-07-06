@@ -1,4 +1,4 @@
-import { PrismaClient } from "../src/generated/client.ts";
+import { PrismaClient } from "../src/generated/client";
 // Import the driver adapter for your specific database (example uses PostgreSQL)
 import { PrismaPg } from "@prisma/adapter-pg";
 
