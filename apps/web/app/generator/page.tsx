@@ -19,6 +19,7 @@ import {
     BarChart3,
     Users,
     Star,
+    Lightbulb,
 } from "lucide-react"
 import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
@@ -32,6 +33,9 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@workspace/ui/components/resizable"
+import { useGroq } from "@/hooks/groqQuery"
+import { object } from "zod/v4"
+import { useAddProjectMutation } from "@/features/projects/projectsApi"
 // ── types ─────────────────────────────────────────────────────────────
 interface Task {
     title: string
@@ -45,13 +49,13 @@ interface Milestone {
     title: string
     description: string
     progress: number
-    status: "pending" | "active" | "done"
     tasks: Task[]
 }
 
 interface Phase {
     name: string
     description: string
+    order: number
     status: "pending" | "active" | "done"
     progress: number
     milestones: Milestone[]
@@ -81,8 +85,9 @@ const MOCK_PROJECT: GeneratedProject = {
     techStack: ["Python", "Django", "JavaScript", "React"],
     phases: [
         {
-            name: "Phase 1: Project Setup",
+            name: "Project Setup",
             description: "Setting up the project structure and environment",
+            order: 1,
             status: "active",
             progress: 0,
             milestones: [
@@ -90,7 +95,6 @@ const MOCK_PROJECT: GeneratedProject = {
                     title: "Environment Setup",
                     description: "Setting up the development environment",
                     progress: 0,
-                    status: "active",
                     tasks: [
                         {
                             title: "Install Python and required packages",
@@ -112,7 +116,6 @@ const MOCK_PROJECT: GeneratedProject = {
                     title: "Project Structure",
                     description: "Defining the project structure and organization",
                     progress: 0,
-                    status: "pending",
                     tasks: [
                         {
                             title: "Create a new Django app",
@@ -126,8 +129,9 @@ const MOCK_PROJECT: GeneratedProject = {
             ],
         },
         {
-            name: "Phase 2: Core Development",
+            name: "Core Development",
             description: "Building the core features of the application",
+            order: 2,
             status: "pending",
             progress: 0,
             milestones: [
@@ -135,7 +139,6 @@ const MOCK_PROJECT: GeneratedProject = {
                     title: "User Authentication",
                     description: "Implementing user authentication and authorization",
                     progress: 0,
-                    status: "pending",
                     tasks: [
                         {
                             title: "Implement user registration",
@@ -243,6 +246,10 @@ function TaskRow({ task }: { task: Task }) {
 }
 
 function MilestoneCard({ milestone }: { milestone: Milestone }) {
+    const isDone = milestone.progress === 100
+    const isActive = milestone.progress > 0 && milestone.progress < 100
+    const statusText = isDone ? "done" : isActive ? `${milestone.progress}%` : "pending"
+
     return (
         <Card className="gap-0 overflow-hidden py-0">
             <CardHeader className="border-b bg-muted/30 px-4 py-3">
@@ -252,11 +259,11 @@ function MilestoneCard({ milestone }: { milestone: Milestone }) {
                         variant="outline"
                         className={cn(
                             "text-xs",
-                            milestone.status === "active" && "border-primary/40 bg-primary/5 text-primary",
-                            milestone.status === "done" && "border-green-500/40 bg-green-500/5 text-green-600 dark:text-green-400"
+                            isActive && "border-primary/40 bg-primary/5 text-primary",
+                            isDone && "border-green-500/40 bg-green-500/5 text-green-600 dark:text-green-400"
                         )}
                     >
-                        {milestone.status === "active" ? `${milestone.progress}%` : milestone.status}
+                        {statusText}
                     </Badge>
                 </div>
                 {milestone.description && (
@@ -282,7 +289,9 @@ function PhaseSection({ phase }: { phase: Phase }) {
         <div className="space-y-3">
             <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold">{phase.name}</span>
+                    <span className="text-sm font-semibold">
+                        {phase.order ? `Phase ${phase.order}: ` : ""}{phase.name}
+                    </span>
                 </div>
                 <div className="flex items-center gap-2">
                     <Badge
@@ -454,6 +463,43 @@ export default function ProjectGeneratorPage() {
     const [generating, setGenerating] = React.useState(false)
     const [streamText, setStreamText] = React.useState("")
     const textareaRef = React.useRef<HTMLTextAreaElement>(null)
+    const [createProject, { isLoading, isSuccess }] = useAddProjectMutation();
+
+    const { generate } = useGroq();
+
+
+    const handleIdeaSubmit = async () => {
+        console.log("GENERATOR : HandleIdeaSubmit called")
+        if (!input.trim()) return
+        setGenerating(true)
+        setStreamText("")
+
+        const groqGeneratedProject = await generate(input);
+        if (!groqGeneratedProject) {
+            console.log("No project generated")
+            return
+        }
+        const parsedProject = JSON.parse(groqGeneratedProject) as GeneratedProject;
+
+
+        const full = JSON.stringify(parsedProject, null, 2)
+        let i = 0
+        const id = setInterval(() => {
+            i += 12
+            setStreamText(full.slice(0, i))
+            if (i >= full.length) {
+                clearInterval(id)
+                setGenerating(false)
+                setProject(parsedProject)
+                setStreamText("")
+            }
+        }, 16)
+
+        return;
+
+
+    }
+
 
     const simulate = React.useCallback(() => {
         if (!input.trim()) return
@@ -503,7 +549,10 @@ export default function ProjectGeneratorPage() {
                             New project
                         </Button>
                     )}
-                    <Button size="sm">Add Project</Button>
+                    {project && (<>
+                        {isSuccess ? (<Button>Project Added</Button>) : (<Button size="sm" disabled={isLoading} onClick={() => { createProject(project) }}>{isLoading ? "Adding" : "Add Project"}</Button>)}
+                    </>
+                    )}
                 </div>
             </header>
 
@@ -513,188 +562,188 @@ export default function ProjectGeneratorPage() {
                     {/* ── Left panel: chat / stream ─────────────────────────────── */}
                     <ResizablePanel defaultSize={project ? 50 : 100} minSize={30}>
                         <div className="flex h-full flex-col overflow-hidden">
-                    {/* Messages area */}
-                    <div className="flex-1 overflow-y-auto">
-                        {!project && !generating ? (
-                            /* Before state — rich empty */
-                            <div className="flex h-full flex-col items-center justify-center px-6 py-8">
-                                {/* Hero */}
-                                <div className="mb-8 flex flex-col items-center gap-3 text-center">
-                                    <div className="relative">
-                                        <div className="absolute -inset-4 rounded-full bg-gradient-to-b from-primary/10 to-transparent blur-xl" />
-                                        <div className="relative flex size-16 items-center justify-center rounded-2xl border bg-background shadow-lg">
-                                            <Sparkles className="size-8 text-primary" />
-                                        </div>
-                                    </div>
-                                    <h1 className="mt-2 text-2xl font-bold tracking-tight">
-                                        Hi! How can I help you today?
-                                    </h1>
-                                    <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-                                        Describe any project — a SaaS app, API service, mobile app, or data pipeline — and I'll generate a full structured plan instantly.
-                                    </p>
-                                </div>
-
-                                {/* Feature cards */}
-                                <div className="mb-8 grid w-full max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
-                                    {FEATURE_HIGHLIGHTS.map(({ icon: Icon, title, description }) => (
-                                        <div
-                                            key={title}
-                                            className="flex flex-col gap-2.5 rounded-xl border bg-card p-4 shadow-xs transition-colors hover:bg-accent/40"
-                                        >
-                                            <div className="flex size-8 items-center justify-center rounded-lg border bg-background shadow-xs">
-                                                <Icon className="size-4 text-foreground" />
+                            {/* Messages area */}
+                            <div className="flex-1 overflow-y-auto">
+                                {!project && !generating ? (
+                                    /* Before state — rich empty */
+                                    <div className="flex h-full flex-col items-center justify-center px-6 py-8">
+                                        {/* Hero */}
+                                        <div className="mb-8 flex flex-col items-center gap-3 text-center">
+                                            <div className="relative">
+                                                <div className="absolute -inset-4 rounded-full bg-gradient-to-b from-primary/10 to-transparent blur-xl" />
+                                                <div className="relative flex size-16 items-center justify-center rounded-2xl border bg-background shadow-lg">
+                                                    <Lightbulb className="size-8 text-primary" />
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="text-xs font-semibold">{title}</p>
-                                                <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{description}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Stats */}
-                                <div className="mb-8 flex w-full max-w-lg items-center justify-around rounded-2xl border bg-muted/30 px-6 py-4">
-                                    {STATS.map(({ icon: Icon, value, label }, i) => (
-                                        <React.Fragment key={label}>
-                                            {i > 0 && <div className="h-10 w-px bg-border" />}
-                                            <div className="flex flex-col items-center gap-1">
-                                                <Icon className="size-4 text-muted-foreground" />
-                                                <span className="text-lg font-bold tabular-nums">{value}</span>
-                                                <span className="text-xs text-muted-foreground">{label}</span>
-                                            </div>
-                                        </React.Fragment>
-                                    ))}
-                                </div>
-
-                                {/* Example prompts */}
-                                <div className="w-full max-w-2xl">
-                                    <p className="mb-2 text-center text-xs font-medium text-muted-foreground">
-                                        Try one of these examples
-                                    </p>
-                                    <div className="flex flex-wrap justify-center gap-2">
-                                        {["A Python learning platform", "E-commerce store with React", "REST API with Node.js", "Mobile fitness tracker app"].map((p) => (
-                                            <button
-                                                key={p}
-                                                onClick={() => {
-                                                    setInput(p)
-                                                    textareaRef.current?.focus()
-                                                }}
-                                                className="flex items-center gap-1.5 rounded-full border bg-background px-3 py-1.5 text-xs text-foreground shadow-xs transition-colors hover:bg-accent"
-                                            >
-                                                <ChevronRight className="size-3 text-muted-foreground" />
-                                                {p}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        ) : generating ? (
-                            /* Streaming state */
-                            <div className="p-6">
-                                <div className="mb-3 flex items-center gap-2">
-                                    <div className="flex size-6 items-center justify-center rounded-full bg-primary">
-                                        <Sparkles className="size-3 text-primary-foreground" />
-                                    </div>
-                                    <span className="text-sm font-medium">Generating project plan…</span>
-                                    <div className="flex gap-1">
-                                        {[0, 1, 2].map((i) => (
-                                            <span
-                                                key={i}
-                                                className="inline-block size-1.5 animate-pulse rounded-full bg-muted-foreground"
-                                                style={{ animationDelay: `${i * 150}ms` }}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                                <div className="overflow-hidden rounded-lg border bg-muted/30 p-4 font-mono text-xs leading-relaxed text-muted-foreground">
-                                    <pre className="whitespace-pre-wrap break-all">{streamText}<span className="animate-pulse">▋</span></pre>
-                                </div>
-                            </div>
-                        ) : (
-                            /* After — show prompt + success message */
-                            <div className="space-y-4 p-6">
-                                {/* User message */}
-                                <div className="flex justify-end">
-                                    <div className="max-w-sm rounded-2xl rounded-tr-sm bg-primary px-4 py-2.5 text-sm text-primary-foreground">
-                                        {input || "A python learning platform"}
-                                    </div>
-                                </div>
-                                {/* AI response summary */}
-                                <div className="flex gap-3">
-                                    <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary">
-                                        <Sparkles className="size-3.5 text-primary-foreground" />
-                                    </div>
-                                    <div className="space-y-3">
-                                        <div className="rounded-2xl rounded-tl-sm border bg-card px-4 py-3 text-sm shadow-xs">
-                                            <p className="mb-2 font-medium">Project plan generated!</p>
-                                            <p className="text-muted-foreground">
-                                                I've created a complete project plan for <strong>{project?.name}</strong>. It includes{" "}
-                                                {project?.phases.length} development phases with{" "}
-                                                {project?.phases.reduce((acc, p) => acc + p.milestones.length, 0)} milestones and step-by-step setup commands.
+                                            <h1 className="mt-2 text-2xl font-bold tracking-tight">
+                                                Hi! How can I help you today?
+                                            </h1>
+                                            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+                                                Describe any project — a SaaS app, API service, mobile app, or data pipeline — and I'll generate a full structured plan instantly.
                                             </p>
                                         </div>
-                                        {/* Quick stats */}
-                                        <div className="flex flex-wrap gap-2">
-                                            {[
-                                                { icon: Layers, label: `${project?.phases.length} Phases` },
-                                                { icon: Package, label: `${project?.phases.reduce((a, p) => a + p.milestones.length, 0)} Milestones` },
-                                                { icon: Terminal, label: "Commands included" },
-                                                { icon: Database, label: project?.type ?? "" },
-                                            ].map(({ icon: Icon, label }) => (
-                                                <Badge key={label} variant="secondary" className="gap-1.5">
-                                                    <Icon className="size-3" />
-                                                    {label}
-                                                </Badge>
+
+                                        {/* Feature cards */}
+                                        <div className="mb-8 grid w-full max-w-2xl grid-cols-2 gap-3 sm:grid-cols-4">
+                                            {FEATURE_HIGHLIGHTS.map(({ icon: Icon, title, description }) => (
+                                                <div
+                                                    key={title}
+                                                    className="flex flex-col gap-2.5 rounded-xl border bg-card p-4 shadow-xs transition-colors hover:bg-accent/40"
+                                                >
+                                                    <div className="flex size-8 items-center justify-center rounded-lg border bg-background shadow-xs">
+                                                        <Icon className="size-4 text-foreground" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-semibold">{title}</p>
+                                                        <p className="mt-0.5 text-xs leading-snug text-muted-foreground">{description}</p>
+                                                    </div>
+                                                </div>
                                             ))}
                                         </div>
+
+                                        {/* Stats */}
+                                        <div className="mb-8 flex w-full max-w-lg items-center justify-around rounded-2xl border bg-muted/30 px-6 py-4">
+                                            {STATS.map(({ icon: Icon, value, label }, i) => (
+                                                <React.Fragment key={label}>
+                                                    {i > 0 && <div className="h-10 w-px bg-border" />}
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <Icon className="size-4 text-muted-foreground" />
+                                                        <span className="text-lg font-bold tabular-nums">{value}</span>
+                                                        <span className="text-xs text-muted-foreground">{label}</span>
+                                                    </div>
+                                                </React.Fragment>
+                                            ))}
+                                        </div>
+
+                                        {/* Example prompts */}
+                                        <div className="w-full max-w-2xl">
+                                            <p className="mb-2 text-center text-xs font-medium text-muted-foreground">
+                                                Try one of these examples
+                                            </p>
+                                            <div className="flex flex-wrap justify-center gap-2">
+                                                {["A Python learning platform", "E-commerce store with React", "REST API with Node.js", "Mobile fitness tracker app"].map((p) => (
+                                                    <button
+                                                        key={p}
+                                                        onClick={() => {
+                                                            setInput(p)
+                                                            textareaRef.current?.focus()
+                                                        }}
+                                                        className="flex items-center gap-1.5 rounded-full border bg-background px-3 py-1.5 text-xs text-foreground shadow-xs transition-colors hover:bg-accent"
+                                                    >
+                                                        <ChevronRight className="size-3 text-muted-foreground" />
+                                                        {p}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : generating ? (
+                                    /* Streaming state */
+                                    <div className="p-6">
+                                        <div className="mb-3 flex items-center gap-2">
+                                            <div className="flex size-6 items-center justify-center rounded-full bg-primary">
+                                                <Sparkles className="size-3 text-primary-foreground" />
+                                            </div>
+                                            <span className="text-sm font-medium">Generating project plan…</span>
+                                            <div className="flex gap-1">
+                                                {[0, 1, 2].map((i) => (
+                                                    <span
+                                                        key={i}
+                                                        className="inline-block size-1.5 animate-pulse rounded-full bg-muted-foreground"
+                                                        style={{ animationDelay: `${i * 150}ms` }}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="overflow-hidden rounded-lg border bg-muted/30 p-4 font-mono text-xs leading-relaxed text-muted-foreground">
+                                            <pre className="whitespace-pre-wrap break-all">{streamText}<span className="animate-pulse">▋</span></pre>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    /* After — show prompt + success message */
+                                    <div className="space-y-4 p-6">
+                                        {/* User message */}
+                                        <div className="flex justify-end">
+                                            <div className="max-w-sm rounded-2xl rounded-tr-sm bg-primary px-4 py-2.5 text-sm text-primary-foreground">
+                                                {input || "A python learning platform"}
+                                            </div>
+                                        </div>
+                                        {/* AI response summary */}
+                                        <div className="flex gap-3">
+                                            <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary">
+                                                <Sparkles className="size-3.5 text-primary-foreground" />
+                                            </div>
+                                            <div className="space-y-3">
+                                                <div className="rounded-2xl rounded-tl-sm border bg-card px-4 py-3 text-sm shadow-xs">
+                                                    <p className="mb-2 font-medium">Project plan generated!</p>
+                                                    <p className="text-muted-foreground">
+                                                        I've created a complete project plan for <strong>{project?.name}</strong>. It includes{" "}
+                                                        {project?.phases.length} development phases with{" "}
+                                                        {project?.phases.reduce((acc, p) => acc + p.milestones.length, 0)} milestones and step-by-step setup commands.
+                                                    </p>
+                                                </div>
+                                                {/* Quick stats */}
+                                                <div className="flex flex-wrap gap-2">
+                                                    {[
+                                                        { icon: Layers, label: `${project?.phases.length} Phases` },
+                                                        { icon: Package, label: `${project?.phases.reduce((a, p) => a + p.milestones.length, 0)} Milestones` },
+                                                        { icon: Terminal, label: "Commands included" },
+                                                        { icon: Database, label: project?.type ?? "" },
+                                                    ].map(({ icon: Icon, label }) => (
+                                                        <Badge key={label} variant="secondary" className="gap-1.5">
+                                                            <Icon className="size-3" />
+                                                            {label}
+                                                        </Badge>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Quick prompts bar */}
+                            {/* <div className="border-t px-4 pt-3">
+                                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+                                    {QUICK_PROMPTS.map((p) => (
+                                        <button
+                                            key={p}
+                                            onClick={() => setInput(p)}
+                                            className="shrink-0 rounded-full border bg-background px-3 py-1 text-xs text-foreground transition-colors hover:bg-accent"
+                                        >
+                                            {p}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div> */}
+
+                            {/* Input area */}
+                            <div className="border-t bg-background p-4">
+                                <div className="relative rounded-xl border bg-background shadow-xs focus-within:ring-2 focus-within:ring-ring/50">
+                                    <Textarea
+                                        ref={textareaRef}
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        onKeyDown={handleKey}
+                                        placeholder="Describe your project idea…"
+                                        className="min-h-[52px] resize-none rounded-xl border-0 bg-transparent py-3.5 pr-14 text-sm shadow-none focus-visible:ring-0"
+                                        rows={1}
+                                    />
+                                    <div className="absolute right-3 bottom-3 flex items-center gap-1.5">
+                                        <Button
+                                            size="icon"
+                                            className="size-8 rounded-lg"
+                                            onClick={handleIdeaSubmit}
+                                            disabled={generating || !input.trim()}
+                                        >
+                                            <ArrowRight className="size-4" />
+                                        </Button>
                                     </div>
                                 </div>
+                                <p className="mt-2 text-center text-xs text-muted-foreground">
+                                    Press <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">Enter</kbd> to generate · <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">Shift+Enter</kbd> for new line
+                                </p>
                             </div>
-                        )}
-                    </div>
-
-                    {/* Quick prompts bar */}
-                    <div className="border-t px-4 pt-3">
-                        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
-                            {QUICK_PROMPTS.map((p) => (
-                                <button
-                                    key={p}
-                                    onClick={() => setInput(p)}
-                                    className="shrink-0 rounded-full border bg-background px-3 py-1 text-xs text-foreground transition-colors hover:bg-accent"
-                                >
-                                    {p}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Input area */}
-                    <div className="border-t bg-background p-4">
-                        <div className="relative rounded-xl border bg-background shadow-xs focus-within:ring-2 focus-within:ring-ring/50">
-                            <Textarea
-                                ref={textareaRef}
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={handleKey}
-                                placeholder="Describe your project idea…"
-                                className="min-h-[52px] resize-none rounded-xl border-0 bg-transparent py-3.5 pr-14 text-sm shadow-none focus-visible:ring-0"
-                                rows={1}
-                            />
-                            <div className="absolute right-3 bottom-3 flex items-center gap-1.5">
-                                <Button
-                                    size="icon"
-                                    className="size-8 rounded-lg"
-                                    onClick={simulate}
-                                    disabled={generating || !input.trim()}
-                                >
-                                    <ArrowRight className="size-4" />
-                                </Button>
-                            </div>
-                        </div>
-                        <p className="mt-2 text-center text-xs text-muted-foreground">
-                            Press <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">Enter</kbd> to generate · <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">Shift+Enter</kbd> for new line
-                        </p>
-                        </div>
                         </div>
                     </ResizablePanel>
 

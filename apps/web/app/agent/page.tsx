@@ -3,6 +3,7 @@
 import { useGroq } from "@/hooks/groqQuery.js"
 import {
   Attachment,
+  AttachmentData,
   AttachmentPreview,
   AttachmentRemove,
   Attachments,
@@ -358,7 +359,7 @@ const AttachmentItem = ({
   attachment,
   onRemove,
 }: {
-  attachment: { id: string; name: string; type: string; url: string }
+  attachment: AttachmentData
   onRemove: (id: string) => void
 }) => {
   const handleRemove = useCallback(() => {
@@ -446,7 +447,7 @@ const ModelItem = ({
 }
 
 const Example = () => {
-  const [model, setModel] = useState<string>(models[0].id)
+  const [model, setModel] = useState<string>(models[0]?.id ?? "")
   const [modelSelectorOpen, setModelSelectorOpen] = useState(false)
   const [generatedProject, setGeneratedProject] = useState<string | null>(null)
   const [data, setData] = useState<any>(null)
@@ -454,13 +455,11 @@ const Example = () => {
   const [text, setText] = useState<string>("")
   const [useWebSearch, setUseWebSearch] = useState<boolean>(false)
   const [status, setStatus] = useState<
-
     "submitted" | "streaming" | "ready" | "error"
   >("ready")
   const [messages, setMessages] = useState<MessageType[]>([])
   const [, setStreamingMessageId] = useState<string | null>(null)
   const [addProject, { isLoading }] = useAddProjectMutation()
-
 
   const handleAddProject = async () => {
     if (!data) {
@@ -652,13 +651,22 @@ const Example = () => {
 
   return (
     <div className="flex h-screen w-full">
-      <ResizablePanelGroup direction="horizontal" key={data ? "split" : "full"}>
-        <ResizablePanel defaultSize={data ? 50 : 100} minSize={30} className="flex min-w-30  flex-col h-screen relative">
-          <div className="flex-1 overflow-y-auto px-4 pt-6 pb-64 w-full mx-auto max-w-4xl [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <ResizablePanelGroup
+        orientation="horizontal"
+        key={data ? "split" : "full"}
+      >
+        <ResizablePanel
+          defaultSize={data ? 50 : 100}
+          minSize={30}
+          className="relative flex h-screen min-w-30 flex-col"
+        >
+          <div className="mx-auto w-full max-w-4xl flex-1 overflow-y-auto px-4 pt-6 pb-64 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {generatedProject === null ? (
               <div className="flex h-full flex-col items-center justify-center gap-4">
                 {" "}
-                <h3 className="text-xl font-medium text-muted-foreground">Hi user! how can I help you today?</h3>{" "}
+                <h3 className="text-xl font-medium text-muted-foreground">
+                  Hi user! how can I help you today?
+                </h3>{" "}
               </div>
             ) : (
               <Conversation>
@@ -724,7 +732,7 @@ const Example = () => {
           <ConversationScrollButton />
         </Conversation>
       )*/}
-          <div className="absolute bottom-0 left-0 right-0 flex shrink-0 flex-col items-center gap-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 pt-4 pb-6 px-4">
+          <div className="absolute right-0 bottom-0 left-0 flex shrink-0 flex-col items-center gap-4 bg-background/95 px-4 pt-4 pb-6 backdrop-blur supports-[backdrop-filter]:bg-background/80">
             <Suggestions className="w-full max-w-4xl px-4">
               {suggestions.map((suggestion) => (
                 <SuggestionItem
@@ -740,7 +748,10 @@ const Example = () => {
                   <PromptInputAttachmentsDisplay />
                 </PromptInputHeader>
                 <PromptInputBody>
-                  <PromptInputTextarea onChange={handleTextChange} value={text} />
+                  <PromptInputTextarea
+                    onChange={handleTextChange}
+                    value={text}
+                  />
                 </PromptInputBody>
                 <PromptInputFooter>
                   <PromptInputTools>
@@ -784,7 +795,9 @@ const Example = () => {
                       <ModelSelectorContent>
                         <ModelSelectorInput placeholder="Search models..." />
                         <ModelSelectorList>
-                          <ModelSelectorEmpty>No models found.</ModelSelectorEmpty>
+                          <ModelSelectorEmpty>
+                            No models found.
+                          </ModelSelectorEmpty>
                           {chefs.map((chef) => (
                             <ModelSelectorGroup heading={chef} key={chef}>
                               {models
@@ -803,7 +816,10 @@ const Example = () => {
                       </ModelSelectorContent>
                     </ModelSelector>
                   </PromptInputTools>
-                  <PromptInputSubmit disabled={isSubmitDisabled} status={status} />
+                  <PromptInputSubmit
+                    disabled={isSubmitDisabled}
+                    status={status}
+                  />
                 </PromptInputFooter>
               </PromptInput>
             </div>
@@ -813,12 +829,23 @@ const Example = () => {
         {data && (
           <>
             <ResizableHandle withHandle />
-            <ResizablePanel defaultSize={50} minSize={30} className="bg-muted/10 h-screen">
+            <ResizablePanel
+              defaultSize={50}
+              minSize={30}
+              className="h-screen bg-muted/10"
+            >
               <div className="h-full overflow-y-hidden">
-                <div className="flex items-center justify-end mb-2 w-full p-4  border-b-2"><Button onClick={() => handleAddProject()} disabled={isLoading}>{isLoading ? "Adding..." : "Add Project"}</Button></div>
-                <div className="p-4 md:p-6 overflow-y-auto h-full "><ProjectMarkdownPreview data={data} />
+                <div className="mb-2 flex w-full items-center justify-end border-b-2 p-4">
+                  <Button
+                    onClick={() => handleAddProject()}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Adding..." : "Add Project"}
+                  </Button>
                 </div>
-
+                <div className="h-full overflow-y-auto p-4 md:p-6">
+                  <ProjectMarkdownPreview data={data} />
+                </div>
               </div>
             </ResizablePanel>
           </>

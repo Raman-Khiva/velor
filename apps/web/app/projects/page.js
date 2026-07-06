@@ -60,7 +60,7 @@ export default function Page() {
           <h2 className="text-2xl font-bold">Projects</h2>
         </div>
         <div className="flex items-center gap-5">
-          <Button className="rounded-sm" onClick={() => router.push("/agent")}>
+          <Button className="rounded-sm" onClick={() => router.push("/generator")}>
             New Project
           </Button>
         </div>
