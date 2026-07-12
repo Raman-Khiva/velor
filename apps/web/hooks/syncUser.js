@@ -15,7 +15,7 @@ export default function useSyncUser() {
         dispatch(setToken(token));
 
         const rawres = await fetch(
-          `${"http://localhost:5000"}/api/user/sync`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/sync`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

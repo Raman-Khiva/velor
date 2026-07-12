@@ -38,7 +38,7 @@ const Logger = ({ children }) => {
     const fetchData = async () => {
       console.log("Token:", getToken())
       const token = await getToken()
-      const rawRes = await fetch("http://localhost:5000/api/user/sync", {
+      const rawRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/user/sync`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

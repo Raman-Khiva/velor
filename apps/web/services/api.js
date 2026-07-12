@@ -13,9 +13,7 @@ const getToken = () => {
   return null;
 };
 
-const serverUrl =
-  `${process.env.NEXT_PUBLIC_SERVER_URL}/api` ||
-  "http://20.204.216.223:5000/api";
+const serverUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/api`;
 export const api = createApi({
   reduerPath: "api",
   baseQuery: fetchBaseQuery({
