@@ -8,7 +8,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "build": "pnpm --filter @workspace/db run generate",
+    "start": "node src/index.js"
   },
   "dependencies": {
     "@clerk/express": "^2.1.19",
