@@ -10,13 +10,13 @@ import projectsRouter from "./routes/projects.route.js"
 import queriesRouter from "./routes/queries.route.js"
 const PORT = process.env.PORT || 4000
 const app = express()
-app.use(express.json())
 
 app.use(
   cors({
     origin: "*",
   })
 )
+app.use(express.json())
 
 app.use("/api/user", clerkAuth, userRouter)
 app.use("/api/test", testRouter)
