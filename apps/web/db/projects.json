@@ -9,6 +9,13 @@
     "startDate": "2025-01-10",
     "targetDate": "2025-06-30",
     "owner": "Aryan Mehta",
+    "repoUrl": "https://github.com/Raman-Khiva/velor",
+    "githubRepo": "Raman-Khiva/velor",
+    "architecture": {
+      "overview": "NebulaChat uses Next.js frontend with Socket.io web sockets, Redis pub/sub for scaling, and PostgreSQL database.",
+      "components": ["Next.js App Router", "Socket.io Engine", "Redis Pub/Sub Layer", "PostgreSQL Database"],
+      "diagram": "graph TD; A[Next.js Client] --> B[Socket.io Gateway]; B --> C[Redis Pub/Sub]; C --> D[PostgreSQL DB]"
+    },
     "phases": [
       {
         "id": "ph-1",
@@ -311,6 +318,67 @@
             ]
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "proj-2",
+    "name": "AI Project Planner",
+    "description": "A SaaS application that generates structured software development plans using AI based on user prompts.",
+    "type": "AI Platform",
+    "techStack": ["Next.js", "Node.js", "Prisma", "PostgreSQL", "Groq API"],
+    "status": "planning",
+    "startDate": "2026-03-16",
+    "targetDate": "2026-06-30",
+    "owner": "Ramandeep Singh",
+    "phases": [
+      {
+        "id": "ph-2-1",
+        "name": "Project Setup",
+        "description": "Initialize the project repository and configure development environment.",
+        "order": 1,
+        "status": "active",
+        "progress": 50,
+        "milestones": [
+          {
+            "id": "ms-2-1-1",
+            "title": "Repository Initialization",
+            "description": "Create base structure for AI project planner.",
+            "progress": 50,
+            "tasks": [
+              {
+                "id": "t-2-1",
+                "title": "Initialize Next.js application",
+                "type": "setup",
+                "purpose": "Create web app structure.",
+                "commands": ["npx create-next-app@latest ai-project-planner"],
+                "done": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "proj-3",
+    "name": "Velor E-Commerce Storefront",
+    "description": "High performance modern headless e-commerce store with automated catalog syncing.",
+    "type": "E-Commerce",
+    "techStack": ["Next.js", "Tailwind CSS", "Stripe", "GraphQL"],
+    "status": "In Progress",
+    "startDate": "2026-02-01",
+    "targetDate": "2026-08-15",
+    "owner": "Sarah Jenkins",
+    "phases": [
+      {
+        "id": "ph-3-1",
+        "name": "Storefront Architecture",
+        "description": "Design components and setup GraphQL API integrations.",
+        "order": 1,
+        "status": "active",
+        "progress": 35,
+        "milestones": []
       }
     ]
   }

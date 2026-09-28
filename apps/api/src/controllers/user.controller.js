@@ -24,8 +24,8 @@ export const syncUser = async (req, res) => {
       logger.info(`User found in database`);
     }
     logger.success("User synced successfully");
-    res.json({
-      status: "success",
+    res.status(200).json({
+      success: true,
       message: "User synced successfully",
       data: {
         user: user,
@@ -33,8 +33,8 @@ export const syncUser = async (req, res) => {
     });
   } catch (error) {
     logger.error(`Failed to sync user: ${error.message}`);
-    res.json({
-      status: "error",
+    res.status(500).json({
+      success: false,
       message: "Failed to sync user",
       error: error.message,
     });

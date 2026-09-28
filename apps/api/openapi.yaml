@@ -1,0 +1,554 @@
+openapi: 3.0.3
+info:
+  title: Velor API
+  description: Official OpenAPI 3.0 specification for Velor project management backend API services.
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+    description: Local Development Server
+  - url: /
+    description: Current Environment relative server
+
+security:
+  - BearerAuth: []
+
+paths:
+  /api/health:
+    get:
+      summary: Health Check
+      description: Returns the operational status and health metrics of the server.
+      security: []
+      responses:
+        '200':
+          description: Server is operational.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/user/sync:
+    get:
+      summary: Sync User
+      description: Synchronizes the authenticated Clerk user with the database user record.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: User synced successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSyncResponse'
+        '401':
+          description: Unauthorized request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error syncing user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/projects:
+    get:
+      summary: Get Projects
+      description: Retrieves all projects associated with the authenticated user including phases, milestones, and tasks.
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Projects fetched successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponse'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    post:
+      summary: Create Project
+      description: Creates a new project with optional nested phases, milestones, and tasks for the authenticated user.
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - project
+              properties:
+                project:
+                  $ref: '#/components/schemas/ProjectInput'
+      responses:
+        '201':
+          description: Project created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectSingleResponse'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to create project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/queries:
+    post:
+      summary: Execute Groq AI Query
+      description: Processes a user query via Groq AI model and generates project structure or recommendations.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryInput'
+      responses:
+        '200':
+          description: Query processed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroqQueryResponse'
+        '500':
+          description: Failed to execute AI query.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/test:
+    post:
+      summary: Post Test Data
+      description: Development endpoint to test database creation.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                test:
+                  type: object
+      responses:
+        '201':
+          description: Test data posted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardApiResponse'
+        '500':
+          description: Server error posting test.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    StandardApiResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+        data:
+          type: object
+          nullable: true
+        error:
+          type: string
+          nullable: true
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "An error occurred"
+        error:
+          type: string
+          example: "ERROR_CODE_OR_MESSAGE"
+
+    HealthResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Server connection successful"
+        data:
+          type: object
+          properties:
+            health:
+              type: string
+              example: "100%"
+
+    UserSyncResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "User synced successfully"
+        data:
+          type: object
+          required:
+            - user
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+
+    ProjectListResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Projects fetched successfully"
+        data:
+          type: object
+          required:
+            - projects
+          properties:
+            projects:
+              type: array
+              items:
+                $ref: '#/components/schemas/Project'
+
+    ProjectSingleResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Project created successfully"
+        data:
+          type: object
+          required:
+            - project
+          properties:
+            project:
+              $ref: '#/components/schemas/Project'
+
+    GroqQueryResponse:
+      type: object
+      required:
+        - success
+        - message
+        - data
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Groq query executed successfully"
+        data:
+          type: object
+          required:
+            - answer
+          properties:
+            answer:
+              type: string
+
+    User:
+      type: object
+      required:
+        - id
+        - clerkId
+        - createdAt
+      properties:
+        id:
+          type: string
+        clerkId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - done
+        - milestoneId
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+          nullable: true
+        purpose:
+          type: string
+          nullable: true
+        commands:
+          type: array
+          items:
+            type: string
+        done:
+          type: boolean
+          default: false
+        milestoneId:
+          type: string
+
+    TaskInput:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        type:
+          type: string
+        purpose:
+          type: string
+        commands:
+          type: array
+          items:
+            type: string
+        done:
+          type: boolean
+          default: false
+
+    Milestone:
+      type: object
+      required:
+        - id
+        - title
+        - progress
+        - phaseId
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+          nullable: true
+        progress:
+          type: integer
+          default: 0
+        phaseId:
+          type: string
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+
+    MilestoneInput:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: integer
+          default: 0
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaskInput'
+
+    Phase:
+      type: object
+      required:
+        - id
+        - name
+        - order
+        - progress
+        - projectId
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        order:
+          type: integer
+        status:
+          type: string
+          nullable: true
+        progress:
+          type: integer
+          default: 0
+        projectId:
+          type: string
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Milestone'
+
+    PhaseInput:
+      type: object
+      required:
+        - name
+        - order
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        order:
+          type: integer
+        status:
+          type: string
+        progress:
+          type: integer
+          default: 0
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/MilestoneInput'
+
+    Project:
+      type: object
+      required:
+        - id
+        - name
+        - createdAt
+        - updatedAt
+        - userId
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        techStack:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          nullable: true
+        startDate:
+          type: string
+          format: date-time
+          nullable: true
+        targetDate:
+          type: string
+          format: date-time
+          nullable: true
+        owner:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        userId:
+          type: string
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phase'
+
+    ProjectInput:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+        techStack:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        targetDate:
+          type: string
+          format: date-time
+        owner:
+          type: string
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhaseInput'

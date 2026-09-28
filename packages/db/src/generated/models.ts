@@ -8,9 +8,9 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Milestone.ts'
-export type * from './models/Phase.ts'
-export type * from './models/Project.ts'
-export type * from './models/Task.ts'
-export type * from './models/User.ts'
-export type * from './commonInputTypes.ts'
+export type * from './models/Milestone.js'
+export type * from './models/Phase.js'
+export type * from './models/Project.js'
+export type * from './models/Task.js'
+export type * from './models/User.js'
+export type * from './commonInputTypes.js'

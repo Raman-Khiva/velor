@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums.ts"
-import type * as Prisma from "../internal/prismaNamespace.ts"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Task
@@ -20,8 +20,18 @@ export type TaskModel = runtime.Types.Result.DefaultSelection<Prisma.$TaskPayloa
 
 export type AggregateTask = {
   _count: TaskCountAggregateOutputType | null
+  _avg: TaskAvgAggregateOutputType | null
+  _sum: TaskSumAggregateOutputType | null
   _min: TaskMinAggregateOutputType | null
   _max: TaskMaxAggregateOutputType | null
+}
+
+export type TaskAvgAggregateOutputType = {
+  githubIssueId: number | null
+}
+
+export type TaskSumAggregateOutputType = {
+  githubIssueId: number | null
 }
 
 export type TaskMinAggregateOutputType = {
@@ -30,6 +40,10 @@ export type TaskMinAggregateOutputType = {
   type: string | null
   purpose: string | null
   done: boolean | null
+  commitSha: string | null
+  githubIssueId: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
   milestoneId: string | null
 }
 
@@ -39,6 +53,10 @@ export type TaskMaxAggregateOutputType = {
   type: string | null
   purpose: string | null
   done: boolean | null
+  commitSha: string | null
+  githubIssueId: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
   milestoneId: string | null
 }
 
@@ -49,10 +67,22 @@ export type TaskCountAggregateOutputType = {
   purpose: number
   commands: number
   done: number
+  commitSha: number
+  githubIssueId: number
+  createdAt: number
+  updatedAt: number
   milestoneId: number
   _all: number
 }
 
+
+export type TaskAvgAggregateInputType = {
+  githubIssueId?: true
+}
+
+export type TaskSumAggregateInputType = {
+  githubIssueId?: true
+}
 
 export type TaskMinAggregateInputType = {
   id?: true
@@ -60,6 +90,10 @@ export type TaskMinAggregateInputType = {
   type?: true
   purpose?: true
   done?: true
+  commitSha?: true
+  githubIssueId?: true
+  createdAt?: true
+  updatedAt?: true
   milestoneId?: true
 }
 
@@ -69,6 +103,10 @@ export type TaskMaxAggregateInputType = {
   type?: true
   purpose?: true
   done?: true
+  commitSha?: true
+  githubIssueId?: true
+  createdAt?: true
+  updatedAt?: true
   milestoneId?: true
 }
 
@@ -79,6 +117,10 @@ export type TaskCountAggregateInputType = {
   purpose?: true
   commands?: true
   done?: true
+  commitSha?: true
+  githubIssueId?: true
+  createdAt?: true
+  updatedAt?: true
   milestoneId?: true
   _all?: true
 }
@@ -121,6 +163,18 @@ export type TaskAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: TaskAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: TaskSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: TaskMinAggregateInputType
@@ -151,6 +205,8 @@ export type TaskGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: TaskCountAggregateInputType | true
+  _avg?: TaskAvgAggregateInputType
+  _sum?: TaskSumAggregateInputType
   _min?: TaskMinAggregateInputType
   _max?: TaskMaxAggregateInputType
 }
@@ -162,8 +218,14 @@ export type TaskGroupByOutputType = {
   purpose: string | null
   commands: string[]
   done: boolean
+  commitSha: string | null
+  githubIssueId: number | null
+  createdAt: Date
+  updatedAt: Date
   milestoneId: string
   _count: TaskCountAggregateOutputType | null
+  _avg: TaskAvgAggregateOutputType | null
+  _sum: TaskSumAggregateOutputType | null
   _min: TaskMinAggregateOutputType | null
   _max: TaskMaxAggregateOutputType | null
 }
@@ -193,6 +255,10 @@ export type TaskWhereInput = {
   purpose?: Prisma.StringNullableFilter<"Task"> | string | null
   commands?: Prisma.StringNullableListFilter<"Task">
   done?: Prisma.BoolFilter<"Task"> | boolean
+  commitSha?: Prisma.StringNullableFilter<"Task"> | string | null
+  githubIssueId?: Prisma.IntNullableFilter<"Task"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   milestoneId?: Prisma.StringFilter<"Task"> | string
   milestone?: Prisma.XOR<Prisma.MilestoneScalarRelationFilter, Prisma.MilestoneWhereInput>
 }
@@ -204,6 +270,10 @@ export type TaskOrderByWithRelationInput = {
   purpose?: Prisma.SortOrderInput | Prisma.SortOrder
   commands?: Prisma.SortOrder
   done?: Prisma.SortOrder
+  commitSha?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubIssueId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   milestoneId?: Prisma.SortOrder
   milestone?: Prisma.MilestoneOrderByWithRelationInput
 }
@@ -218,6 +288,10 @@ export type TaskWhereUniqueInput = Prisma.AtLeast<{
   purpose?: Prisma.StringNullableFilter<"Task"> | string | null
   commands?: Prisma.StringNullableListFilter<"Task">
   done?: Prisma.BoolFilter<"Task"> | boolean
+  commitSha?: Prisma.StringNullableFilter<"Task"> | string | null
+  githubIssueId?: Prisma.IntNullableFilter<"Task"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   milestoneId?: Prisma.StringFilter<"Task"> | string
   milestone?: Prisma.XOR<Prisma.MilestoneScalarRelationFilter, Prisma.MilestoneWhereInput>
 }, "id">
@@ -229,10 +303,16 @@ export type TaskOrderByWithAggregationInput = {
   purpose?: Prisma.SortOrderInput | Prisma.SortOrder
   commands?: Prisma.SortOrder
   done?: Prisma.SortOrder
+  commitSha?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubIssueId?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   milestoneId?: Prisma.SortOrder
   _count?: Prisma.TaskCountOrderByAggregateInput
+  _avg?: Prisma.TaskAvgOrderByAggregateInput
   _max?: Prisma.TaskMaxOrderByAggregateInput
   _min?: Prisma.TaskMinOrderByAggregateInput
+  _sum?: Prisma.TaskSumOrderByAggregateInput
 }
 
 export type TaskScalarWhereWithAggregatesInput = {
@@ -245,6 +325,10 @@ export type TaskScalarWhereWithAggregatesInput = {
   purpose?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
   commands?: Prisma.StringNullableListFilter<"Task">
   done?: Prisma.BoolWithAggregatesFilter<"Task"> | boolean
+  commitSha?: Prisma.StringNullableWithAggregatesFilter<"Task"> | string | null
+  githubIssueId?: Prisma.IntNullableWithAggregatesFilter<"Task"> | number | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Task"> | Date | string
   milestoneId?: Prisma.StringWithAggregatesFilter<"Task"> | string
 }
 
@@ -255,6 +339,10 @@ export type TaskCreateInput = {
   purpose?: string | null
   commands?: Prisma.TaskCreatecommandsInput | string[]
   done?: boolean
+  commitSha?: string | null
+  githubIssueId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   milestone: Prisma.MilestoneCreateNestedOneWithoutTasksInput
 }
 
@@ -265,6 +353,10 @@ export type TaskUncheckedCreateInput = {
   purpose?: string | null
   commands?: Prisma.TaskCreatecommandsInput | string[]
   done?: boolean
+  commitSha?: string | null
+  githubIssueId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   milestoneId: string
 }
 
@@ -275,6 +367,10 @@ export type TaskUpdateInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   milestone?: Prisma.MilestoneUpdateOneRequiredWithoutTasksNestedInput
 }
 
@@ -285,6 +381,10 @@ export type TaskUncheckedUpdateInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   milestoneId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -295,6 +395,10 @@ export type TaskCreateManyInput = {
   purpose?: string | null
   commands?: Prisma.TaskCreatecommandsInput | string[]
   done?: boolean
+  commitSha?: string | null
+  githubIssueId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   milestoneId: string
 }
 
@@ -305,6 +409,10 @@ export type TaskUpdateManyMutationInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TaskUncheckedUpdateManyInput = {
@@ -314,6 +422,10 @@ export type TaskUncheckedUpdateManyInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   milestoneId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -334,7 +446,15 @@ export type TaskCountOrderByAggregateInput = {
   purpose?: Prisma.SortOrder
   commands?: Prisma.SortOrder
   done?: Prisma.SortOrder
+  commitSha?: Prisma.SortOrder
+  githubIssueId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   milestoneId?: Prisma.SortOrder
+}
+
+export type TaskAvgOrderByAggregateInput = {
+  githubIssueId?: Prisma.SortOrder
 }
 
 export type TaskMaxOrderByAggregateInput = {
@@ -343,6 +463,10 @@ export type TaskMaxOrderByAggregateInput = {
   type?: Prisma.SortOrder
   purpose?: Prisma.SortOrder
   done?: Prisma.SortOrder
+  commitSha?: Prisma.SortOrder
+  githubIssueId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   milestoneId?: Prisma.SortOrder
 }
 
@@ -352,7 +476,15 @@ export type TaskMinOrderByAggregateInput = {
   type?: Prisma.SortOrder
   purpose?: Prisma.SortOrder
   done?: Prisma.SortOrder
+  commitSha?: Prisma.SortOrder
+  githubIssueId?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   milestoneId?: Prisma.SortOrder
+}
+
+export type TaskSumOrderByAggregateInput = {
+  githubIssueId?: Prisma.SortOrder
 }
 
 export type TaskCreateNestedManyWithoutMilestoneInput = {
@@ -410,6 +542,14 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type TaskCreateWithoutMilestoneInput = {
   id?: string
   title: string
@@ -417,6 +557,10 @@ export type TaskCreateWithoutMilestoneInput = {
   purpose?: string | null
   commands?: Prisma.TaskCreatecommandsInput | string[]
   done?: boolean
+  commitSha?: string | null
+  githubIssueId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TaskUncheckedCreateWithoutMilestoneInput = {
@@ -426,6 +570,10 @@ export type TaskUncheckedCreateWithoutMilestoneInput = {
   purpose?: string | null
   commands?: Prisma.TaskCreatecommandsInput | string[]
   done?: boolean
+  commitSha?: string | null
+  githubIssueId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TaskCreateOrConnectWithoutMilestoneInput = {
@@ -464,6 +612,10 @@ export type TaskScalarWhereInput = {
   purpose?: Prisma.StringNullableFilter<"Task"> | string | null
   commands?: Prisma.StringNullableListFilter<"Task">
   done?: Prisma.BoolFilter<"Task"> | boolean
+  commitSha?: Prisma.StringNullableFilter<"Task"> | string | null
+  githubIssueId?: Prisma.IntNullableFilter<"Task"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"Task"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Task"> | Date | string
   milestoneId?: Prisma.StringFilter<"Task"> | string
 }
 
@@ -474,6 +626,10 @@ export type TaskCreateManyMilestoneInput = {
   purpose?: string | null
   commands?: Prisma.TaskCreatecommandsInput | string[]
   done?: boolean
+  commitSha?: string | null
+  githubIssueId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type TaskUpdateWithoutMilestoneInput = {
@@ -483,6 +639,10 @@ export type TaskUpdateWithoutMilestoneInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TaskUncheckedUpdateWithoutMilestoneInput = {
@@ -492,6 +652,10 @@ export type TaskUncheckedUpdateWithoutMilestoneInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type TaskUncheckedUpdateManyWithoutMilestoneInput = {
@@ -501,6 +665,10 @@ export type TaskUncheckedUpdateManyWithoutMilestoneInput = {
   purpose?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   commands?: Prisma.TaskUpdatecommandsInput | string[]
   done?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  commitSha?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubIssueId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -512,6 +680,10 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   purpose?: boolean
   commands?: boolean
   done?: boolean
+  commitSha?: boolean
+  githubIssueId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   milestoneId?: boolean
   milestone?: boolean | Prisma.MilestoneDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
@@ -523,6 +695,10 @@ export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   purpose?: boolean
   commands?: boolean
   done?: boolean
+  commitSha?: boolean
+  githubIssueId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   milestoneId?: boolean
   milestone?: boolean | Prisma.MilestoneDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
@@ -534,6 +710,10 @@ export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   purpose?: boolean
   commands?: boolean
   done?: boolean
+  commitSha?: boolean
+  githubIssueId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   milestoneId?: boolean
   milestone?: boolean | Prisma.MilestoneDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
@@ -545,10 +725,14 @@ export type TaskSelectScalar = {
   purpose?: boolean
   commands?: boolean
   done?: boolean
+  commitSha?: boolean
+  githubIssueId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   milestoneId?: boolean
 }
 
-export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "type" | "purpose" | "commands" | "done" | "milestoneId", ExtArgs["result"]["task"]>
+export type TaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "type" | "purpose" | "commands" | "done" | "commitSha" | "githubIssueId" | "createdAt" | "updatedAt" | "milestoneId", ExtArgs["result"]["task"]>
 export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   milestone?: boolean | Prisma.MilestoneDefaultArgs<ExtArgs>
 }
@@ -571,6 +755,10 @@ export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     purpose: string | null
     commands: string[]
     done: boolean
+    commitSha: string | null
+    githubIssueId: number | null
+    createdAt: Date
+    updatedAt: Date
     milestoneId: string
   }, ExtArgs["result"]["task"]>
   composites: {}
@@ -1002,6 +1190,10 @@ export interface TaskFieldRefs {
   readonly purpose: Prisma.FieldRef<"Task", 'String'>
   readonly commands: Prisma.FieldRef<"Task", 'String[]'>
   readonly done: Prisma.FieldRef<"Task", 'Boolean'>
+  readonly commitSha: Prisma.FieldRef<"Task", 'String'>
+  readonly githubIssueId: Prisma.FieldRef<"Task", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Task", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Task", 'DateTime'>
   readonly milestoneId: Prisma.FieldRef<"Task", 'String'>
 }
     

@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models.ts'
-export type * from './prismaNamespace.ts'
+export type * from '../models.js'
+export type * from './prismaNamespace.js'
 
 export const Decimal = runtime.Decimal
 
@@ -108,6 +108,10 @@ export const ProjectScalarFieldEnum = {
   startDate: 'startDate',
   targetDate: 'targetDate',
   owner: 'owner',
+  repoUrl: 'repoUrl',
+  githubRepo: 'githubRepo',
+  architecture: 'architecture',
+  githubWebhookSecret: 'githubWebhookSecret',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   userId: 'userId'
@@ -123,6 +127,10 @@ export const TaskScalarFieldEnum = {
   purpose: 'purpose',
   commands: 'commands',
   done: 'done',
+  commitSha: 'commitSha',
+  githubIssueId: 'githubIssueId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   milestoneId: 'milestoneId'
 } as const
 
@@ -146,6 +154,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -160,4 +176,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

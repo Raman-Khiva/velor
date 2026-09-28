@@ -50,126 +50,59 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
-      url: "#",
+      title: "All Projects",
+      url: "/projects",
       icon: (
-        <TerminalSquareIcon
-        />
+        <GalleryVerticalEndIcon />
       ),
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
+      items: [],
     },
     {
-      title: "Models",
-      url: "#",
+      title: "NebulaChat",
+      url: "/projects/0",
       icon: (
-        <BotIcon
-        />
+        <FrameIcon />
       ),
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      items: [],
     },
     {
-      title: "Documentation",
-      url: "#",
+      title: "AI Project Planner",
+      url: "/projects/1",
       icon: (
-        <BookOpenIcon
-        />
+        <BotIcon />
       ),
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      items: [],
     },
     {
-      title: "Settings",
-      url: "#",
+      title: "Velor E-Commerce Storefront",
+      url: "/projects/2",
       icon: (
-        <Settings2Icon
-        />
+        <PieChartIcon />
       ),
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
+      items: [],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
+      name: "NebulaChat",
+      url: "/projects/0",
       icon: (
-        <FrameIcon
-        />
+        <FrameIcon />
       ),
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
+      name: "AI Project Planner",
+      url: "/projects/1",
       icon: (
-        <PieChartIcon
-        />
+        <BotIcon />
       ),
     },
     {
-      name: "Travel",
-      url: "#",
+      name: "Velor E-Commerce",
+      url: "/projects/2",
       icon: (
-        <MapIcon
-        />
+        <PieChartIcon />
       ),
     },
   ],

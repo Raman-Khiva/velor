@@ -23,6 +23,9 @@ const generatePrompt = (query) => {
   - startDate: strict ISO format date string (e.g., "2024-01-01T00:00:00Z")
   - targetDate: strict ISO format date string (e.g., "2024-06-30T00:00:00Z")
   - owner: string (name of project creator)
+  - repoUrl: string (optional GitHub repository URL)
+  - githubRepo: string (suggested owner/repository format e.g. "developer/my-project")
+  - architecture: object with keys { overview: string, components: string[], diagram: string (valid Mermaid graph TD/ER diagram string) }
   - phases: Phase[]
 
   Phase
@@ -58,12 +61,13 @@ const generatePrompt = (query) => {
   6. Each phase must contain 2–4 milestones.
   7. Each milestone must contain 2–4 tasks.
   8. Tasks should be realistic developer actions.
+  9. architecture must contain a valid overview summary, key components list, and valid Mermaid diagram string.
 
   -----------------------
   OUTPUT FORMAT
   -----------------------
 
-  output must strictly follow this JSON structure and should be praseable  with no additional text:
+  output must strictly follow this JSON structure and should be parseable with no additional text:
   cross check the output to follow json structure
   Return a JSON object with this structure:
 
@@ -72,16 +76,23 @@ const generatePrompt = (query) => {
     "description": "...",
     "type": "...",
     "techStack": [],
-    "status": "...",
+    "status": "planning",
     "startDate": "...",
     "targetDate": "...",
     "owner": "...",
+    "repoUrl": "",
+    "githubRepo": "developer/project-name",
+    "architecture": {
+      "overview": "...",
+      "components": [],
+      "diagram": "graph TD; A[Client] --> B[API Server]; B --> C[Database]"
+    },
     "phases": [
       {
         "name": "...",
         "description": "...",
         "order": 1,
-        "status": "...",
+        "status": "pending",
         "progress": 0,
         "milestones": [
           {

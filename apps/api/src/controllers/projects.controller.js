@@ -14,10 +14,10 @@ export const getProjects = async (req, res) => {
     });
     if (!user) {
       logger.error(`User with clerkId ${clerkId} not found`);
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
-        message: " User not found",
-        error: "NOT FOUND",
+        message: "User not found",
+        error: "NOT_FOUND",
       });
     }
     userId = user.id;
@@ -70,10 +70,10 @@ export const addProject = async (req, res) => {
     });
     if (!user) {
       logger.error(`User with clerkId ${clerkId} not found`);
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: "User not found",
-        error: "NOT FOUND",
+        error: "NOT_FOUND",
       });
     }
     userId = user.id;
@@ -105,14 +105,101 @@ export const addProject = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Project create Successfully",
-      data: { projectCreated: createdProject },
+      message: "Project created successfully",
+      data: { project: createdProject },
     });
   } catch (error) {
     logger.error(`Error while adding project. ERROR: ${error.message}`);
     res.status(500).json({
       success: false,
       message: "Failed to add project",
+      error: error.message,
+    });
+  }
+};
+
+export const getProjectById = async (req, res) => {
+  logger.enter("Get Project By ID Controller");
+  try {
+    const { id } = req.params;
+    const project = await prisma.project.findUnique({
+      where: { id },
+      include: {
+        phases: {
+          include: {
+            milestones: {
+              include: { tasks: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (!project) {
+      return res.status(404).json({
+        success: false,
+        message: "Project not found",
+        error: "NOT_FOUND",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Project fetched successfully",
+      data: { project },
+    });
+  } catch (error) {
+    logger.error(`Error while fetching project by ID. ERROR: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching project",
+      error: error.message,
+    });
+  }
+};
+
+export const updateProject = async (req, res) => {
+  logger.enter("Update Project Controller");
+  try {
+    const { id } = req.params;
+    const { name, description, type, techStack, status, repoUrl, githubRepo, architecture, githubWebhookSecret, startDate, targetDate } = req.body;
+
+    const updatedProject = await prisma.project.update({
+      where: { id },
+      data: {
+        ...(name && { name }),
+        ...(description !== undefined && { description }),
+        ...(type !== undefined && { type }),
+        ...(techStack && { techStack }),
+        ...(status !== undefined && { status }),
+        ...(repoUrl !== undefined && { repoUrl }),
+        ...(githubRepo !== undefined && { githubRepo }),
+        ...(architecture !== undefined && { architecture }),
+        ...(githubWebhookSecret !== undefined && { githubWebhookSecret }),
+        ...(startDate && { startDate: new Date(startDate) }),
+        ...(targetDate && { targetDate: new Date(targetDate) }),
+      },
+      include: {
+        phases: {
+          include: {
+            milestones: {
+              include: { tasks: true },
+            },
+          },
+        },
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Project updated successfully",
+      data: { project: updatedProject },
+    });
+  } catch (error) {
+    logger.error(`Error updating project. ERROR: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update project",
       error: error.message,
     });
   }

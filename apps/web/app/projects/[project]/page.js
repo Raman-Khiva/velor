@@ -1,84 +1,81 @@
 "use client";
 import { useGetProjectsQuery } from "@/features/projects/projectsApi";
+import staticProjects from "@/db/projects.json";
 import Link from "next/link";
-import { Checkbox } from "@workspace/ui/components/checkbox";
 import { ProjectOverview } from "@workspace/ui/components/project-overview";
-import { LayoutGrid, LayoutList } from "lucide-react";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldLegend,
-  FieldSet,
-} from "@workspace/ui/components/field";
 import { PhaseCard } from "@workspace/ui/components/phase-card";
 import { useParams } from "next/navigation";
 import { Button } from "@workspace/ui/components/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@workspace/ui/components/card";
-
-import { AppSidebar } from "@workspace/ui/components/app-sidebar";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@workspace/ui/components/breadcrumb";
-import { Separator } from "@workspace/ui/components/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@workspace/ui/components/sidebar";
-
-import { useState } from "react";
+import { ArrowRight, LayoutGrid, LayoutList, ListChecks } from "lucide-react";
 
 export default function Page() {
   const { data, isLoading } = useGetProjectsQuery();
   const params = useParams();
   let { project } = params;
-  if (isLoading || !data) {
+
+  const projects = data?.projects || staticProjects;
+  const projectIdx = isNaN(project) ? 0 : Number(project);
+  const curProject = projects[projectIdx] || projects[0];
+
+  if (!curProject && isLoading) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
-        <h2>loading Project</h2>
+      <div className="w-full h-full flex items-center justify-center p-12">
+        <h2 className="text-zinc-400 font-medium">Loading Project Overview...</h2>
       </div>
     );
   }
-  const projects = data.projects || [];
-  const curProject = projects[project];
+
   const phases = curProject?.phases || [];
+  const totalProgress = phases.length > 0
+    ? Math.round(phases.reduce((acc, phase) => acc + (phase.progress || 0), 0) / phases.length)
+    : 0;
+
   return (
-    <div>
-      <div className="flex flex-col items-center gap-6 py-4">
+    <div className="w-full px-4 md:px-8 py-8 flex flex-col items-center">
+      <div className="w-full max-w-5xl flex flex-col items-center gap-8">
         <ProjectOverview
-          owner={curProject?.owner}
-          targetDate={curProject?.targetDate}
+          title={curProject?.name}
           description={curProject?.description}
+          techStack={curProject?.techStack}
+          startDate={curProject?.startDate}
+          targetDate={curProject?.targetDate}
+          owner={curProject?.owner}
+          status={curProject?.status || "In Progress"}
+          type={curProject?.type}
+          progress={totalProgress}
+          projectIndex={projectIdx}
         />
-        <div className="flex justify-between w-full max-w-5xl px-1">
-          <h4>Project phases</h4>
-          <div className="flex gap-3">
-            <LayoutList className="text-blue-600 font-semibold cursor-pointer" />
-            <LayoutGrid className="cursor-pointer" />
+
+        <div className="w-full max-w-5xl bg-[#121215] border border-zinc-800 rounded-xl p-6 flex flex-col gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+            <div>
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <ListChecks className="size-5 text-blue-500" />
+                Project Phases Summary
+              </h3>
+              <p className="text-xs text-zinc-400 mt-1">
+                High-level status of the {phases.length} phase(s) in this project
+              </p>
+            </div>
+            <Link href={`/projects/${projectIdx}/progress`}>
+              <Button variant="outline" className="border-zinc-700 text-zinc-200 hover:bg-zinc-800 gap-2">
+                Open Detailed Progress Timeline
+                <ArrowRight className="size-4" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {phases.map((phase, index) => (
+              <PhaseCard
+                key={index}
+                projectIndex={projectIdx}
+                phase={phase}
+                index={index}
+              />
+            ))}
           </div>
         </div>
-        {phases.map((phase, index) => (
-          <PhaseCard
-            key={index}
-            projectIndex={project}
-            phase={phase}
-            index={index}
-          />
-        ))}
       </div>
     </div>
   );

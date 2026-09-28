@@ -9,8 +9,8 @@
  * 🟢 You can import this file directly.
  */
 import type * as runtime from "@prisma/client/runtime/client"
-import type * as $Enums from "../enums.ts"
-import type * as Prisma from "../internal/prismaNamespace.ts"
+import type * as $Enums from "../enums.js"
+import type * as Prisma from "../internal/prismaNamespace.js"
 
 /**
  * Model Project
@@ -33,6 +33,9 @@ export type ProjectMinAggregateOutputType = {
   startDate: Date | null
   targetDate: Date | null
   owner: string | null
+  repoUrl: string | null
+  githubRepo: string | null
+  githubWebhookSecret: string | null
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
@@ -47,6 +50,9 @@ export type ProjectMaxAggregateOutputType = {
   startDate: Date | null
   targetDate: Date | null
   owner: string | null
+  repoUrl: string | null
+  githubRepo: string | null
+  githubWebhookSecret: string | null
   createdAt: Date | null
   updatedAt: Date | null
   userId: string | null
@@ -62,6 +68,10 @@ export type ProjectCountAggregateOutputType = {
   startDate: number
   targetDate: number
   owner: number
+  repoUrl: number
+  githubRepo: number
+  architecture: number
+  githubWebhookSecret: number
   createdAt: number
   updatedAt: number
   userId: number
@@ -78,6 +88,9 @@ export type ProjectMinAggregateInputType = {
   startDate?: true
   targetDate?: true
   owner?: true
+  repoUrl?: true
+  githubRepo?: true
+  githubWebhookSecret?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -92,6 +105,9 @@ export type ProjectMaxAggregateInputType = {
   startDate?: true
   targetDate?: true
   owner?: true
+  repoUrl?: true
+  githubRepo?: true
+  githubWebhookSecret?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -107,6 +123,10 @@ export type ProjectCountAggregateInputType = {
   startDate?: true
   targetDate?: true
   owner?: true
+  repoUrl?: true
+  githubRepo?: true
+  architecture?: true
+  githubWebhookSecret?: true
   createdAt?: true
   updatedAt?: true
   userId?: true
@@ -195,6 +215,10 @@ export type ProjectGroupByOutputType = {
   startDate: Date | null
   targetDate: Date | null
   owner: string | null
+  repoUrl: string | null
+  githubRepo: string | null
+  architecture: runtime.JsonValue | null
+  githubWebhookSecret: string | null
   createdAt: Date
   updatedAt: Date
   userId: string
@@ -231,6 +255,10 @@ export type ProjectWhereInput = {
   startDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   targetDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   owner?: Prisma.StringNullableFilter<"Project"> | string | null
+  repoUrl?: Prisma.StringNullableFilter<"Project"> | string | null
+  githubRepo?: Prisma.StringNullableFilter<"Project"> | string | null
+  architecture?: Prisma.JsonNullableFilter<"Project">
+  githubWebhookSecret?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   userId?: Prisma.StringFilter<"Project"> | string
@@ -248,6 +276,10 @@ export type ProjectOrderByWithRelationInput = {
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
   owner?: Prisma.SortOrderInput | Prisma.SortOrder
+  repoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubRepo?: Prisma.SortOrderInput | Prisma.SortOrder
+  architecture?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubWebhookSecret?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -268,6 +300,10 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   startDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   targetDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   owner?: Prisma.StringNullableFilter<"Project"> | string | null
+  repoUrl?: Prisma.StringNullableFilter<"Project"> | string | null
+  githubRepo?: Prisma.StringNullableFilter<"Project"> | string | null
+  architecture?: Prisma.JsonNullableFilter<"Project">
+  githubWebhookSecret?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   userId?: Prisma.StringFilter<"Project"> | string
@@ -285,6 +321,10 @@ export type ProjectOrderByWithAggregationInput = {
   startDate?: Prisma.SortOrderInput | Prisma.SortOrder
   targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
   owner?: Prisma.SortOrderInput | Prisma.SortOrder
+  repoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubRepo?: Prisma.SortOrderInput | Prisma.SortOrder
+  architecture?: Prisma.SortOrderInput | Prisma.SortOrder
+  githubWebhookSecret?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -306,6 +346,10 @@ export type ProjectScalarWhereWithAggregatesInput = {
   startDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   targetDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   owner?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  repoUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  githubRepo?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  architecture?: Prisma.JsonNullableWithAggregatesFilter<"Project">
+  githubWebhookSecret?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
   userId?: Prisma.StringWithAggregatesFilter<"Project"> | string
@@ -321,6 +365,10 @@ export type ProjectCreateInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProjectsInput
@@ -337,6 +385,10 @@ export type ProjectUncheckedCreateInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -353,6 +405,10 @@ export type ProjectUpdateInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
@@ -369,6 +425,10 @@ export type ProjectUncheckedUpdateInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -385,6 +445,10 @@ export type ProjectCreateManyInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -400,6 +464,10 @@ export type ProjectUpdateManyMutationInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -414,6 +482,10 @@ export type ProjectUncheckedUpdateManyInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -442,6 +514,10 @@ export type ProjectCountOrderByAggregateInput = {
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrder
   owner?: Prisma.SortOrder
+  repoUrl?: Prisma.SortOrder
+  githubRepo?: Prisma.SortOrder
+  architecture?: Prisma.SortOrder
+  githubWebhookSecret?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -456,6 +532,9 @@ export type ProjectMaxOrderByAggregateInput = {
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrder
   owner?: Prisma.SortOrder
+  repoUrl?: Prisma.SortOrder
+  githubRepo?: Prisma.SortOrder
+  githubWebhookSecret?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -470,6 +549,9 @@ export type ProjectMinOrderByAggregateInput = {
   startDate?: Prisma.SortOrder
   targetDate?: Prisma.SortOrder
   owner?: Prisma.SortOrder
+  repoUrl?: Prisma.SortOrder
+  githubRepo?: Prisma.SortOrder
+  githubWebhookSecret?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -568,6 +650,10 @@ export type ProjectCreateWithoutPhasesInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutProjectsInput
@@ -583,6 +669,10 @@ export type ProjectUncheckedCreateWithoutPhasesInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   userId: string
@@ -614,6 +704,10 @@ export type ProjectUpdateWithoutPhasesInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput
@@ -629,6 +723,10 @@ export type ProjectUncheckedUpdateWithoutPhasesInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -644,6 +742,10 @@ export type ProjectCreateWithoutUserInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   phases?: Prisma.PhaseCreateNestedManyWithoutProjectInput
@@ -659,6 +761,10 @@ export type ProjectUncheckedCreateWithoutUserInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   phases?: Prisma.PhaseUncheckedCreateNestedManyWithoutProjectInput
@@ -703,6 +809,10 @@ export type ProjectScalarWhereInput = {
   startDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   targetDate?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   owner?: Prisma.StringNullableFilter<"Project"> | string | null
+  repoUrl?: Prisma.StringNullableFilter<"Project"> | string | null
+  githubRepo?: Prisma.StringNullableFilter<"Project"> | string | null
+  architecture?: Prisma.JsonNullableFilter<"Project">
+  githubWebhookSecret?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   userId?: Prisma.StringFilter<"Project"> | string
@@ -718,6 +828,10 @@ export type ProjectCreateManyUserInput = {
   startDate?: Date | string | null
   targetDate?: Date | string | null
   owner?: string | null
+  repoUrl?: string | null
+  githubRepo?: string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -732,6 +846,10 @@ export type ProjectUpdateWithoutUserInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   phases?: Prisma.PhaseUpdateManyWithoutProjectNestedInput
@@ -747,6 +865,10 @@ export type ProjectUncheckedUpdateWithoutUserInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   phases?: Prisma.PhaseUncheckedUpdateManyWithoutProjectNestedInput
@@ -762,6 +884,10 @@ export type ProjectUncheckedUpdateManyWithoutUserInput = {
   startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   owner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  githubRepo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  architecture?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  githubWebhookSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -807,6 +933,10 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   startDate?: boolean
   targetDate?: boolean
   owner?: boolean
+  repoUrl?: boolean
+  githubRepo?: boolean
+  architecture?: boolean
+  githubWebhookSecret?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -825,6 +955,10 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   startDate?: boolean
   targetDate?: boolean
   owner?: boolean
+  repoUrl?: boolean
+  githubRepo?: boolean
+  architecture?: boolean
+  githubWebhookSecret?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -841,6 +975,10 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   startDate?: boolean
   targetDate?: boolean
   owner?: boolean
+  repoUrl?: boolean
+  githubRepo?: boolean
+  architecture?: boolean
+  githubWebhookSecret?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
@@ -857,12 +995,16 @@ export type ProjectSelectScalar = {
   startDate?: boolean
   targetDate?: boolean
   owner?: boolean
+  repoUrl?: boolean
+  githubRepo?: boolean
+  architecture?: boolean
+  githubWebhookSecret?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   userId?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "type" | "techStack" | "status" | "startDate" | "targetDate" | "owner" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "type" | "techStack" | "status" | "startDate" | "targetDate" | "owner" | "repoUrl" | "githubRepo" | "architecture" | "githubWebhookSecret" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   phases?: boolean | Prisma.Project$phasesArgs<ExtArgs>
@@ -891,6 +1033,10 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     startDate: Date | null
     targetDate: Date | null
     owner: string | null
+    repoUrl: string | null
+    githubRepo: string | null
+    architecture: runtime.JsonValue | null
+    githubWebhookSecret: string | null
     createdAt: Date
     updatedAt: Date
     userId: string
@@ -1328,6 +1474,10 @@ export interface ProjectFieldRefs {
   readonly startDate: Prisma.FieldRef<"Project", 'DateTime'>
   readonly targetDate: Prisma.FieldRef<"Project", 'DateTime'>
   readonly owner: Prisma.FieldRef<"Project", 'String'>
+  readonly repoUrl: Prisma.FieldRef<"Project", 'String'>
+  readonly githubRepo: Prisma.FieldRef<"Project", 'String'>
+  readonly architecture: Prisma.FieldRef<"Project", 'Json'>
+  readonly githubWebhookSecret: Prisma.FieldRef<"Project", 'String'>
   readonly createdAt: Prisma.FieldRef<"Project", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Project", 'DateTime'>
   readonly userId: Prisma.FieldRef<"Project", 'String'>

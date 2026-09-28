@@ -53,94 +53,46 @@ const data = {
   ],
   navMain: [
     {
-      title: "Home",
-      url: "#",
-      icon: Home,
+      title: "All Projects",
+      url: "/projects",
+      icon: FolderOpen,
       isActive: true,
       items: [],
     },
-    { title: "Projects", url: "/projects", icon: FolderOpen, items: [] },
     {
-      title: "Models",
-      url: "#",
+      title: "NebulaChat",
+      url: "/projects/0",
+      icon: Frame,
+      items: [],
+    },
+    {
+      title: "AI Project Planner",
+      url: "/projects/1",
       icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      items: [],
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
+      title: "Velor E-Commerce Storefront",
+      url: "/projects/2",
+      icon: PieChart,
+      items: [],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
-      url: "#",
+      name: "NebulaChat",
+      url: "/projects/0",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
+      name: "AI Project Planner",
+      url: "/projects/1",
+      icon: Bot,
     },
     {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Velor E-Commerce",
+      url: "/projects/2",
+      icon: PieChart,
     },
   ],
 };

@@ -18,14 +18,14 @@ import {
   SidebarMenuSubItem,
 } from "@workspace/ui/components/sidebar";
 
-export function NavMain({ items }) {
+export function NavMain({ items, label = "Projects" }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item, index) => (
           <div key={index}>
-            {item.items.length > 0 ? (
+            {item.items && item.items.length > 0 ? (
               <Collapsible
                 key={item.title}
                 asChild
@@ -37,9 +37,7 @@ export function NavMain({ items }) {
                     <SidebarMenuButton tooltip={item.title}>
                       {item.icon && <item.icon />}
                       <span>{item.title}</span>
-                      {item.items.length > 0 && (
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                      )}
+                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
@@ -58,10 +56,14 @@ export function NavMain({ items }) {
                 </SidebarMenuItem>
               </Collapsible>
             ) : (
-              <SidebarMenuButton>
-                {item.icon && <item.icon />}
-                {item.title}
-              </SidebarMenuButton>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip={item.title}>
+                  <a href={item.url || "#"}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             )}
           </div>
         ))}

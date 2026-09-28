@@ -1,0 +1,16 @@
+
+
+
+setup:
+  - project: velor-web
+    config: dev
+    path: apps/web
+  - project: velor-api 
+    config: dev 
+    path: apps/api
+  - project: velor-api
+    config: dev
+    path: packages/db
+  - project: velor-api
+    config: dev
+    path: ./

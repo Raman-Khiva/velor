@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.js",
+    "dev": "doppler run -- nodemon src/index.js",
     "build": "pnpm --filter @workspace/db run generate",
     "start": "node src/index.js"
   },
@@ -16,11 +16,13 @@
     "@clerk/express": "^2.1.19",
     "@prisma/adapter-neon": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@workspace/db": "workspace:*",
     "cors": "^2.8.6",
     "dotenv": "^16.0.3",
     "express": "^5.2.1",
     "groq-sdk": "^1.1.1",
-    "@workspace/db": "workspace:*"
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",

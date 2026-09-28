@@ -33,17 +33,21 @@ model Phase {
 }
 
 model Project {
-  id          String    @id @default(uuid())
-  name        String
-  description String?
-  type        String?
-  techStack   String[]
-  status      String?
-  startDate   DateTime?
-  targetDate  DateTime?
-  owner       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now())
+  id                  String    @id @default(uuid())
+  name                String
+  description         String?
+  type                String?
+  techStack           String[]
+  status              String?
+  startDate           DateTime?
+  targetDate          DateTime?
+  owner               String?
+  repoUrl             String?
+  githubRepo          String?
+  architecture        Json?
+  githubWebhookSecret String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @default(now()) @updatedAt
 
   userId String
   user   User @relation(fields: [userId], references: [id])
@@ -52,12 +56,16 @@ model Project {
 }
 
 model Task {
-  id          String    @id @default(uuid())
-  title       String
-  type        String?
-  purpose     String?
-  commands    String[]
-  done        Boolean   @default(false)
+  id            String    @id @default(uuid())
+  title         String
+  type          String?
+  purpose       String?
+  commands      String[]
+  done          Boolean   @default(false)
+  commitSha     String?
+  githubIssueId Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
 
   milestoneId String
   milestone   Milestone @relation(fields: [milestoneId], references: [id])
