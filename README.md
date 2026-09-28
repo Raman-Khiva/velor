@@ -143,10 +143,9 @@ Velor provides interactive OpenAPI documentation for all API routes.
 ## 👨‍💻 Author & Contact
 
 **[YOUR_NAME]**
-- **Portfolio**: [[YOUR_PORTFOLIO_URL]](https://[YOUR_PORTFOLIO_URL])
-- **LinkedIn**: [linkedin.com/in/[YOUR_LINKEDIN_USERNAME]](https://linkedin.com/in/[YOUR_LINKEDIN_USERNAME])
-- **GitHub**: [@YOUR_GITHUB_USERNAME](https://github.com/[YOUR_GITHUB_USERNAME])
-- **Email**: [[YOUR_EMAIL]](mailto:[YOUR_EMAIL])
+- **Portfolio**: ramansingh.me 
+- **LinkedIn**: https://www.linkedin.com/in/ramandeep-singh-503077200
+- **Email**: ramandeep01167@gmail.com
 
 ---
 
